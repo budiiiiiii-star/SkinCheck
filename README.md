@@ -1,5 +1,7 @@
 # SkinCheck — AI-Powered Skin Health Monitoring & Skincare Assistant
 
+[![SkinCheck CI Pipeline](https://github.com/budiiiiiii-star/SkinCheck/actions/workflows/ci.yml/badge.svg)](https://github.com/budiiiiiii-star/SkinCheck/actions/workflows/ci.yml)
+
 > **Proyek Tugas Ujian Akhir Semester (UAS) Rekayasa Perangkat Lunak (RPL)**  
 > Repositori Resmi: [https://github.com/budiiiiiii-star/SkinCheck](https://github.com/budiiiiiii-star/SkinCheck)
 
@@ -269,6 +271,25 @@ http://localhost:3000
 
 * **Registrasi Akun Baru**: Klik tombol **Daftar**, isi nama, email, dan password. Anda akan diarahkan ke halaman *Onboarding* untuk melengkapi profil jenis kulit.
 * **Akses Administrator**: Untuk menguji fitur admin, ubah kolom `role` pengguna menjadi `'ADMIN'` pada tabel `users` di database PostgreSQL Anda, kemudian masuk ke rute `http://localhost:3000/admin/dashboard`.
+
+---
+
+### 7.5 Menjalankan Pengujian Otomatis (Unit Testing)
+Proyek ini dilengkapi rangkaian pengujian unit otomatis (*automated unit tests*) untuk menguji fungsi kritis:
+```bash
+# Menjalankan seluruh pengujian unit
+npm test
+```
+*Di lingkungan Windows PowerShell, jika script execution policy aktif, dapat menggunakan:*
+```powershell
+npm.cmd test
+```
+
+### 7.6 Otomatisasi CI/CD (GitHub Actions)
+Setiap kali ada pembaruan kode yang di-*push* atau *Pull Request* ke branch `main`, pipeline GitHub Actions di `.github/workflows/ci.yml` akan secara otomatis:
+1. Memeriksa integritas dependensi pada Node.js versi 18.x dan 20.x.
+2. Menjalankan seluruh rangkaian *Unit Testing* tanpa memerlukan kredensial/API key asli.
+3. Memastikan aplikasi dalam status lulus (*Passed/Green*) sebelum dapat dirilis atau digabungkan.
 
 ---
 
