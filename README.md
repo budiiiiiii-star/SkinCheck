@@ -145,11 +145,9 @@ Sistem SkinCheck mengintegrasikan dua pilar AI utama:
 
 ## 6. Video Demonstrasi Aplikasi
 
-Tonton video demonstrasi lengkap penggunaan aplikasi SkinCheck pada tautan berikut:
+Tonton video demonstrasi dan presentasi lengkap penggunaan aplikasi SkinCheck pada tautan YouTube berikut:
 
-* **Link Video YouTube**: `[https://www.youtube.com/watch?v=XXXXXXXXXXX - Link Video Demonstrasi Menyusul]`
-
-*(Catatan: Tautan video di atas dapat diperbarui setelah proses perekaman presentasi dan demonstrasi selesai diunggah).*
+* 🎥 **Tautan Video YouTube**: [https://youtu.be/lKfy4eEuRB0](https://youtu.be/lKfy4eEuRB0) (`https://youtu.be/lKfy4eEuRB0?si=8nnEv_cZITq5QxZO`)
 
 ---
 
