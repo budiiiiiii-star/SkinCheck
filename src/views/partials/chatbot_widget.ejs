@@ -1,0 +1,274 @@
+<!-- Floating Chatbot Widget -->
+<div id="chatbot-widget" class="chatbot-widget">
+
+    <!-- Floating Toggle Button -->
+    <button id="chatbot-toggle" class="chatbot-toggle-btn" aria-label="Buka Chatbot">
+        <span class="chatbot-toggle-icon" id="chatbot-icon-open">
+            <i class="fa-solid fa-comments"></i>
+        </span>
+        <span class="chatbot-toggle-icon chatbot-icon-hidden" id="chatbot-icon-close">
+            <i class="fa-solid fa-xmark"></i>
+        </span>
+        <span class="chatbot-pulse-ring"></span>
+    </button>
+
+    <!-- Chat Window -->
+    <div id="chatbot-window" class="chatbot-window chatbot-window-hidden">
+
+        <!-- Header -->
+        <div class="chatbot-header">
+            <% const isWidgetAdmin = locals.user && locals.user.role === 'ADMIN'; %>
+            <div class="chatbot-header-avatar">
+                <i class="fa-solid <%= isWidgetAdmin ? 'fa-shield-halved' : 'fa-robot' %>"></i>
+            </div>
+            <div class="chatbot-header-info">
+                <h6 class="chatbot-header-title"><%= isWidgetAdmin ? 'SkinCheck Admin AI' : 'SkinCheck AI' %></h6>
+                <span class="chatbot-header-status">
+                    <span class="chatbot-status-dot"></span> <%= isWidgetAdmin ? 'DB Connected' : 'Online' %>
+                </span>
+            </div>
+            <button id="chatbot-close" class="chatbot-close-btn" aria-label="Tutup chat">
+                <i class="fa-solid fa-minus"></i>
+            </button>
+        </div>
+
+        <!-- Messages Area -->
+        <div id="chatbot-messages" class="chatbot-messages">
+            <!-- Welcome message -->
+            <div class="chatbot-msg chatbot-msg-bot chatbot-fade-in">
+                <div class="chatbot-msg-avatar">
+                    <i class="fa-solid <%= isWidgetAdmin ? 'fa-shield-halved' : 'fa-robot' %>"></i>
+                </div>
+                <div class="chatbot-msg-bubble">
+                    <% if (isWidgetAdmin) { %>
+                        <p>Halo Administrator! 🛡️ Saya <strong>SkinCheck Admin AI</strong> yang terhubung dengan database sistem.</p>
+                        <p>Tanyakan statistik pengguna, aktivitas scan, pemeriksaan sunscreen, produk, atau metrik platform! 📊</p>
+                    <% } else { %>
+                        <p>Halo! 👋 Saya <strong>SkinCheck AI</strong>, asisten edukasi skincare Anda.</p>
+                        <p>Tanyakan apa saja seputar perawatan kulit, sunscreen, atau rutinitas skincare! ✨</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="chatbot-quick-actions chatbot-fade-in" id="chatbot-quick-actions">
+                <% if (isWidgetAdmin) { %>
+                    <button class="chatbot-quick-btn" data-msg="Bagaimana ringkasan statistik dan metrik sistem SkinCheck saat ini?">
+                        <i class="fa-solid fa-chart-pie"></i> Ringkasan Statistik
+                    </button>
+                    <button class="chatbot-quick-btn" data-msg="Tampilkan daftar lengkap customer yang terdaftar dan status akunnya.">
+                        <i class="fa-solid fa-users"></i> Data Pengguna
+                    </button>
+                    <button class="chatbot-quick-btn" data-msg="Tampilkan aktivitas face scan terbaru dan hasil skornya.">
+                        <i class="fa-solid fa-camera"></i> Scan Terbaru
+                    </button>
+                    <button class="chatbot-quick-btn" data-msg="Tampilkan daftar produk katalog di database.">
+                        <i class="fa-solid fa-box-open"></i> Katalog Produk
+                    </button>
+                <% } else { %>
+                    <button class="chatbot-quick-btn" data-msg="Apa rutinitas skincare untuk kulit berjerawat?">
+                        <i class="fa-solid fa-sparkles"></i> Rutinitas Jerawat
+                    </button>
+                    <button class="chatbot-quick-btn" data-msg="Bagaimana cara memilih sunscreen yang tepat?">
+                        <i class="fa-solid fa-sun"></i> Tips Sunscreen
+                    </button>
+                    <button class="chatbot-quick-btn" data-msg="Apa perbedaan AHA dan BHA?">
+                        <i class="fa-solid fa-flask"></i> AHA vs BHA
+                    </button>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="chatbot-input-area">
+            <form id="chatbot-form" class="chatbot-form">
+                <input 
+                    type="text" 
+                    id="chatbot-input" 
+                    class="chatbot-input" 
+                    placeholder="<%= isWidgetAdmin ? 'Tanyakan database: user, scan, produk...' : 'Ketik pertanyaan Anda...' %>" 
+                    autocomplete="off" 
+                    required
+                >
+                <button type="submit" id="chatbot-send" class="chatbot-send-btn" aria-label="Kirim pesan">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+            <p class="chatbot-disclaimer"><%= isWidgetAdmin ? 'AI terhubung realtime ke database PostgreSQL SkinCheck.' : 'AI tidak menggantikan saran medis profesional.' %></p>
+        </div>
+
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const widget = document.getElementById('chatbot-widget');
+    const toggleBtn = document.getElementById('chatbot-toggle');
+    const closeBtn = document.getElementById('chatbot-close');
+    const chatWindow = document.getElementById('chatbot-window');
+    const messagesBox = document.getElementById('chatbot-messages');
+    const chatForm = document.getElementById('chatbot-form');
+    const chatInput = document.getElementById('chatbot-input');
+    const sendBtn = document.getElementById('chatbot-send');
+    const iconOpen = document.getElementById('chatbot-icon-open');
+    const iconClose = document.getElementById('chatbot-icon-close');
+    const quickActions = document.getElementById('chatbot-quick-actions');
+
+    let isOpen = false;
+
+    // Toggle chat window
+    const toggleChat = () => {
+        isOpen = !isOpen;
+        chatWindow.classList.toggle('chatbot-window-hidden', !isOpen);
+        chatWindow.classList.toggle('chatbot-window-visible', isOpen);
+        iconOpen.classList.toggle('chatbot-icon-hidden', isOpen);
+        iconClose.classList.toggle('chatbot-icon-hidden', !isOpen);
+        toggleBtn.classList.toggle('chatbot-toggle-active', isOpen);
+
+        if (isOpen) {
+            chatInput.focus();
+            messagesBox.scrollTop = messagesBox.scrollHeight;
+        }
+    };
+
+    toggleBtn.addEventListener('click', toggleChat);
+    closeBtn.addEventListener('click', toggleChat);
+
+    // Quick action buttons
+    quickActions.addEventListener('click', (e) => {
+        const btn = e.target.closest('.chatbot-quick-btn');
+        if (!btn) return;
+        const msg = btn.dataset.msg;
+        chatInput.value = msg;
+        chatForm.dispatchEvent(new Event('submit'));
+    });
+
+    // Basic markdown to HTML
+    const formatMarkdown = (text) => {
+        return text
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+            .replace(/^### (.*$)/gm, '<strong style="font-size:1.05em">$1</strong>')
+            .replace(/^## (.*$)/gm, '<strong style="font-size:1.1em">$1</strong>')
+            .replace(/^- (.*$)/gm, '• $1')
+            .replace(/\n/g, '<br>');
+    };
+
+    // Append user message
+    const appendUserMsg = (text) => {
+        const div = document.createElement('div');
+        div.className = 'chatbot-msg chatbot-msg-user chatbot-fade-in';
+        div.innerHTML = `<div class="chatbot-msg-bubble">${text}</div>`;
+        messagesBox.appendChild(div);
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+    };
+
+    // Create empty bot bubble for streaming
+    const createBotBubble = () => {
+        const div = document.createElement('div');
+        div.className = 'chatbot-msg chatbot-msg-bot chatbot-fade-in';
+        div.innerHTML = `
+            <div class="chatbot-msg-avatar"><i class="fa-solid fa-robot"></i></div>
+            <div class="chatbot-msg-bubble"><p class="chatbot-streaming-text"></p></div>
+        `;
+        messagesBox.appendChild(div);
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+        return div.querySelector('.chatbot-streaming-text');
+    };
+
+    // Typing indicator
+    const showTyping = () => {
+        const div = document.createElement('div');
+        div.id = 'chatbot-typing';
+        div.className = 'chatbot-msg chatbot-msg-bot chatbot-fade-in';
+        div.innerHTML = `
+            <div class="chatbot-msg-avatar"><i class="fa-solid fa-robot"></i></div>
+            <div class="chatbot-msg-bubble chatbot-typing-bubble">
+                <span class="chatbot-typing-dot"></span>
+                <span class="chatbot-typing-dot"></span>
+                <span class="chatbot-typing-dot"></span>
+            </div>
+        `;
+        messagesBox.appendChild(div);
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+    };
+
+    const removeTyping = () => {
+        const el = document.getElementById('chatbot-typing');
+        if (el) el.remove();
+    };
+
+    // Handle form submit
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        chatInput.value = '';
+        chatInput.disabled = true;
+        sendBtn.disabled = true;
+
+        // Hide quick actions after first message
+        if (quickActions) quickActions.style.display = 'none';
+
+        appendUserMsg(message);
+        showTyping();
+
+        try {
+            const response = await fetch('/api/chatbot/stream', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            });
+
+            removeTyping();
+
+            if (!response.ok) {
+                const textEl = createBotBubble();
+                textEl.innerHTML = '❌ Maaf, terjadi kesalahan. Silakan coba lagi nanti.';
+                return;
+            }
+
+            const textEl = createBotBubble();
+            let rawText = '';
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split('\n');
+                buffer = lines.pop();
+
+                for (const line of lines) {
+                    if (!line.startsWith('data: ')) continue;
+                    try {
+                        const data = JSON.parse(line.slice(6));
+                        if (data.token) {
+                            rawText += data.token;
+                            textEl.innerHTML = formatMarkdown(rawText);
+                            messagesBox.scrollTop = messagesBox.scrollHeight;
+                        }
+                        if (data.error) {
+                            textEl.innerHTML = '❌ ' + data.error;
+                        }
+                    } catch (_) {}
+                }
+            }
+
+        } catch (err) {
+            removeTyping();
+            const textEl = createBotBubble();
+            textEl.innerHTML = '❌ Koneksi terputus. Gagal menghubungi server.';
+        } finally {
+            chatInput.disabled = false;
+            sendBtn.disabled = false;
+            chatInput.focus();
+        }
+    });
+});
+</script>

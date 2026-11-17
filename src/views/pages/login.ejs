@@ -1,0 +1,96 @@
+<!-- Login Page — Full page auth layout -->
+<div class="auth-layout">
+    <div class="auth-box">
+        <!-- Brand -->
+        <div class="auth-brand">
+            <div class="auth-brand-icon"><i class="fa-solid fa-leaf"></i></div>
+            <span class="auth-brand-name">SkinCheck</span>
+        </div>
+
+        <!-- Theme toggle (top right) -->
+        <div style="position:fixed;top:20px;right:20px;z-index:100;">
+            <button class="theme-toggle" id="theme-toggle" title="Toggle Theme" aria-label="Toggle Theme">
+                <div class="theme-toggle-icons">
+                    <i class="fa-solid fa-sun" style="font-size:0.6rem;color:#f59e0b;"></i>
+                    <i class="fa-solid fa-moon" style="font-size:0.6rem;color:#7c3aed;"></i>
+                </div>
+                <div class="theme-toggle-thumb" id="theme-thumb">
+                    <i class="fa-solid fa-sun" style="font-size:0.5rem;"></i>
+                </div>
+            </button>
+        </div>
+
+        <div class="auth-card fade-in">
+            <h1 class="auth-title">Selamat Datang 👋</h1>
+            <p class="auth-subtitle">Masuk untuk melanjutkan perjalanan skincare Anda.</p>
+
+            <% if (locals.error) { %>
+                <div class="alert alert-danger mb-4">
+                    <i class="fa-solid fa-circle-exclamation me-2"></i><%= error %>
+                </div>
+            <% } %>
+
+            <form action="/login" method="POST" id="login-form">
+                <div class="mb-4">
+                    <label class="form-label" for="login-email">Email</label>
+                    <input type="email" id="login-email" name="email" class="form-control form-control-lg" placeholder="nama@email.com" required autocomplete="email">
+                </div>
+                <div class="mb-5">
+                    <label class="form-label" for="login-password">Password</label>
+                    <div style="position:relative;">
+                        <input type="password" id="login-password" name="password" class="form-control form-control-lg" placeholder="••••••••" required autocomplete="current-password" style="padding-right:46px;">
+                        <button type="button" id="toggle-pwd" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.9rem;" aria-label="Toggle Password">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg" style="width:100%;" id="login-submit-btn">
+                    <i class="fa-solid fa-right-to-bracket"></i> Masuk
+                </button>
+            </form>
+
+            <p style="text-align:center;margin-top:20px;font-size:0.875rem;color:var(--text-muted);">
+                Belum punya akun?
+                <a href="/register" style="color:var(--brand-primary);font-weight:600;" id="login-register-link">Daftar sekarang</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    // Theme
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('sc-theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    const themeBtn = document.getElementById('theme-toggle');
+    const themeThumb = document.getElementById('theme-thumb');
+    function updateThumbIcon(theme) {
+        if (!themeThumb) return;
+        themeThumb.innerHTML = theme === 'dark'
+            ? '<i class="fa-solid fa-moon" style="font-size:0.5rem;"></i>'
+            : '<i class="fa-solid fa-sun" style="font-size:0.5rem;"></i>';
+    }
+    updateThumbIcon(savedTheme);
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('sc-theme', next);
+            updateThumbIcon(next);
+        });
+    }
+    // Toggle password
+    const toggleBtn = document.getElementById('toggle-pwd');
+    const pwdInput = document.getElementById('login-password');
+    if (toggleBtn && pwdInput) {
+        toggleBtn.addEventListener('click', () => {
+            const isText = pwdInput.type === 'text';
+            pwdInput.type = isText ? 'password' : 'text';
+            toggleBtn.innerHTML = isText
+                ? '<i class="fa-regular fa-eye"></i>'
+                : '<i class="fa-regular fa-eye-slash"></i>';
+        });
+    }
+})();
+</script>

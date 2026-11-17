@@ -1,0 +1,139 @@
+<!-- Profile Page -->
+<div class="slide-up" style="max-width:700px;margin:0 auto;">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-header-title">Edit Profil</h1>
+        <p class="page-header-subtitle">Perbarui informasi dan preferensi kulit Anda di sini.</p>
+    </div>
+
+    <!-- Alerts -->
+    <% if (locals.error) { %>
+        <div class="alert alert-danger mb-4"><i class="fa-solid fa-circle-exclamation me-2"></i><%= error %></div>
+    <% } %>
+    <% if (locals.success) { %>
+        <div class="alert alert-success mb-4"><i class="fa-solid fa-check-circle me-2"></i><%= success %></div>
+    <% } %>
+
+    <!-- Profile Form Card -->
+    <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:24px;">
+        <div style="padding:20px 24px;border-bottom:1px solid var(--border-color);display:flex;align-items:center;gap:12px;">
+            <div style="width:40px;height:40px;border-radius:12px;background:rgba(124,58,237,0.1);display:flex;align-items:center;justify-content:center;color:var(--brand-primary);font-size:1rem;">
+                <i class="fa-solid fa-circle-user"></i>
+            </div>
+            <div>
+                <h3 style="font-size:1rem;font-weight:700;margin:0;color:var(--text-primary);">Profil Dasar</h3>
+                <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Informasi dasar Anda</p>
+            </div>
+        </div>
+
+        <form action="/profile" method="POST" id="profile-form">
+            <div style="padding:24px;">
+
+                <!-- Age & Gender -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label" for="profile-age">Umur</label>
+                        <input type="number" id="profile-age" name="age" class="form-control" required min="10" max="100" value="<%= profileData.age || '' %>">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="profile-gender">Jenis Kelamin</label>
+                        <select id="profile-gender" name="gender" class="form-select" required>
+                            <option value="">Pilih...</option>
+                            <option value="L" <%= profileData.gender === 'L' ? 'selected' : '' %>>Laki-laki</option>
+                            <option value="P" <%= profileData.gender === 'P' ? 'selected' : '' %>>Perempuan</option>
+                            <option value="O" <%= profileData.gender === 'O' ? 'selected' : '' %>>Lainnya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Skin Type -->
+                <div class="mb-5">
+                    <label class="form-label" for="profile-skin-type">Jenis Kulit</label>
+                    <select id="profile-skin-type" name="skin_type" class="form-select" required>
+                        <option value="">Pilih jenis kulit...</option>
+                        <option value="Normal" <%= profileData.skin_type === 'Normal' ? 'selected' : '' %>>Normal</option>
+                        <option value="Kering" <%= profileData.skin_type === 'Kering' ? 'selected' : '' %>>Kering</option>
+                        <option value="Berminyak" <%= profileData.skin_type === 'Berminyak' ? 'selected' : '' %>>Berminyak</option>
+                        <option value="Kombinasi" <%= profileData.skin_type === 'Kombinasi' ? 'selected' : '' %>>Kombinasi</option>
+                        <option value="Sensitif" <%= profileData.skin_type === 'Sensitif' ? 'selected' : '' %>>Sensitif</option>
+                        <option value="Tidak Tahu" <%= profileData.skin_type === 'Tidak Tahu' ? 'selected' : '' %>>Tidak Tahu</option>
+                    </select>
+                </div>
+
+                <!-- Divider -->
+                <div style="border-top:1px solid var(--border-color);margin-bottom:24px;padding-top:24px;display:flex;align-items:center;gap:12px;">
+                    <div style="width:36px;height:36px;border-radius:10px;background:rgba(124,58,237,0.1);display:flex;align-items:center;justify-content:center;color:var(--brand-primary);">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div>
+                        <h4 style="font-size:0.9rem;font-weight:700;margin:0;color:var(--text-primary);">Tujuan &amp; Preferensi</h4>
+                        <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Bantu AI memberikan saran yang lebih personal</p>
+                    </div>
+                </div>
+
+                <!-- Skincare Goals -->
+                <div class="mb-4">
+                    <label class="form-label">Tujuan Skincare</label>
+                    <% const goals = profileData.skincare_goals || []; %>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                        <% const goalOptions = ['Mengurangi Jerawat', 'Mencerahkan', 'Anti Aging', 'Melembabkan']; %>
+                        <% goalOptions.forEach((g, idx) => { %>
+                            <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--border-color);border-radius:12px;cursor:pointer;transition:all 0.2s;font-size:0.875rem;color:var(--text-secondary);" 
+                                   onmouseenter="this.style.borderColor='var(--brand-primary)';this.style.background='rgba(124,58,237,0.05)'"
+                                   onmouseleave="this.style.borderColor='var(--border-color)';this.style.background=''">
+                                <input type="checkbox" name="skincare_goals" value="<%= g %>" id="goal-<%= idx+1 %>" <%= goals.includes(g) ? 'checked' : '' %> style="accent-color:var(--brand-primary);">
+                                <%= g %>
+                            </label>
+                        <% }) %>
+                    </div>
+                </div>
+
+                <!-- Preferences -->
+                <div class="mb-4">
+                    <label class="form-label" for="profile-prefs">Preferensi Skincare</label>
+                    <input type="text" id="profile-prefs" name="skincare_preferences" class="form-control" placeholder="Contoh: Vegan, Fragrance-free, dsb." value="<%= profileData.skincare_preferences || '' %>">
+                </div>
+
+                <!-- Current Products -->
+                <div class="mb-5">
+                    <label class="form-label" for="profile-products">Produk yang Sedang Digunakan</label>
+                    <textarea id="profile-products" name="current_products" class="form-control" rows="3" placeholder="Sebutkan produk yang rutin Anda pakai saat ini..."><%= profileData.current_products || '' %></textarea>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <button type="submit" class="btn btn-primary btn-lg" style="flex:1;" id="profile-save-btn">
+                        <i class="fa-solid fa-check"></i> Perbarui Profil
+                    </button>
+                    <a href="/customer/dashboard" class="btn btn-secondary btn-lg" id="profile-back-btn">
+                        Batal
+                    </a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <!-- Danger Zone -->
+    <div style="background:rgba(239,68,68,0.06);border:1.5px solid rgba(239,68,68,0.2);border-radius:16px;padding:22px 24px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:rgba(239,68,68,0.12);display:flex;align-items:center;justify-content:center;color:#ef4444;font-size:1rem;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+                <h4 style="font-size:0.9rem;font-weight:700;color:#ef4444;margin:0;">Zona Berbahaya</h4>
+                <p style="font-size:0.75rem;color:var(--text-muted);margin:0;">Tindakan ini bersifat permanen dan tidak dapat dibatalkan</p>
+            </div>
+        </div>
+        <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:16px;">
+            Sesuai kebijakan privasi, Anda berhak menghapus seluruh data Anda. Menghapus akun akan <strong>menghapus secara permanen</strong> seluruh riwayat foto Face Scan, informasi profil, dan log dari sistem kami.
+        </p>
+        <form action="/profile/delete-account" method="POST" onsubmit="return confirm('PERINGATAN: Apakah Anda yakin ingin menghapus akun dan SEMUA data foto Anda secara permanen?');" id="profile-delete-form">
+            <button type="submit" class="btn btn-outline-danger btn-sm" id="profile-delete-btn">
+                <i class="fa-solid fa-trash me-1"></i> Hapus Akun &amp; Seluruh Data
+            </button>
+        </form>
+    </div>
+
+</div>

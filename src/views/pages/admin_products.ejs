@@ -1,0 +1,136 @@
+<!-- Admin Products Page -->
+<div class="slide-up">
+
+    <div class="page-header">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+            <div>
+                <h1 class="page-header-title">Product Catalog</h1>
+                <p class="page-header-subtitle">Kelola katalog produk rekomendasi skincare.</p>
+            </div>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal" id="admin-add-product-btn">
+                <i class="fa-solid fa-plus"></i> Tambah Produk
+            </button>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="row g-4">
+        <% products.forEach(p => { %>
+            <div class="col-md-6 col-lg-4">
+                <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);height:100%;transition:all 0.3s ease;display:flex;flex-direction:column;"
+                     onmouseenter="this.style.boxShadow='var(--shadow-md)';this.style.borderColor='var(--border-hover)'"
+                     onmouseleave="this.style.boxShadow='var(--shadow-sm)';this.style.borderColor='var(--border-color)'">
+                    <div style="padding:18px 20px;flex:1;">
+                        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                            <div>
+                                <h3 style="font-size:1rem;font-weight:700;color:var(--brand-primary);margin-bottom:2px;"><%= p.brand %></h3>
+                                <h4 style="font-size:0.875rem;font-weight:600;color:var(--text-primary);margin:0;"><%= p.name %></h4>
+                            </div>
+                            <span style="display:inline-flex;padding:3px 10px;border-radius:99px;font-size:0.7rem;font-weight:600;background:<%= p.status === 'ACTIVE' ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)' %>;color:<%= p.status === 'ACTIVE' ? '#10b981' : '#ef4444' %>;" class="status-badge-<%= p.id %>">
+                                <%= p.status %>
+                            </span>
+                        </div>
+                        <span style="display:inline-flex;padding:3px 10px;border-radius:99px;background:rgba(124,58,237,0.1);color:var(--brand-primary);font-size:0.72rem;font-weight:600;margin-bottom:10px;"><%= p.category %></span>
+                        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:10px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;"><%= p.description %></p>
+                        <% if (p.skin_concern && p.skin_concern.length > 0) { %>
+                            <div style="font-size:0.72rem;color:var(--text-muted);"><strong>Concerns:</strong> <%= p.skin_concern.join(', ') %></div>
+                        <% } %>
+                    </div>
+                    <div style="padding:12px 20px;border-top:1px solid var(--border-color);">
+                        <button class="btn btn-secondary btn-sm toggle-btn" style="width:100%;" data-id="<%= p.id %>" data-status="<%= p.status %>" id="admin-toggle-product-<%= p.id %>">
+                            <%= p.status === 'ACTIVE' ? 'Deactivate Product' : 'Activate Product' %>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+
+</div>
+
+<!-- Modal Add Product -->
+<div class="modal fade" id="addProductModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0 shadow-lg" style="background:var(--bg-card);border-radius:20px;overflow:hidden;">
+            <div class="modal-header border-0" style="background:linear-gradient(135deg,#7c3aed,#a855f7);padding:20px 24px;">
+                <h5 class="modal-title" style="color:white;font-weight:700;">Tambah Produk Baru</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/admin/products/create" method="POST" id="admin-product-form">
+                <div class="modal-body" style="padding:24px;">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="prod-brand">Brand</label>
+                            <input type="text" id="prod-brand" class="form-control" name="brand" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="prod-name">Product Name</label>
+                            <input type="text" id="prod-name" class="form-control" name="name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="prod-category">Category</label>
+                            <select id="prod-category" class="form-select" name="category" required>
+                                <option value="Cleanser">Cleanser</option>
+                                <option value="Toner">Toner</option>
+                                <option value="Serum">Serum</option>
+                                <option value="Moisturizer">Moisturizer</option>
+                                <option value="Sunscreen">Sunscreen</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="prod-concern">Skin Concerns (pisahkan koma)</label>
+                            <input type="text" id="prod-concern" class="form-control" name="skin_concern" placeholder="Acne, Redness, Dryness">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="prod-desc">Deskripsi</label>
+                            <textarea id="prod-desc" class="form-control" name="description" rows="3" required></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="prod-ing">Ingredients</label>
+                            <textarea id="prod-ing" class="form-control" name="ingredients" rows="2"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="prod-usage">Usage Guidance</label>
+                            <textarea id="prod-usage" class="form-control" name="usage_guidance" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top:1px solid var(--border-color);padding:16px 24px;background:var(--bg-surface-2);">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="prod-cancel-btn">Batal</button>
+                    <button type="submit" class="btn btn-primary" id="prod-save-btn"><i class="fa-solid fa-check me-1"></i>Simpan Produk</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+        const productId = e.target.getAttribute('data-id');
+        const currentStatus = e.target.getAttribute('data-status');
+        e.target.disabled = true;
+        try {
+            const res = await fetch('/admin/products/toggle', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId, status: currentStatus })
+            });
+            const data = await res.json();
+            if (data.success) {
+                e.target.setAttribute('data-status', data.newStatus);
+                e.target.textContent = data.newStatus === 'ACTIVE' ? 'Deactivate Product' : 'Activate Product';
+                const badge = document.querySelector(`.status-badge-${productId}`);
+                const isActive = data.newStatus === 'ACTIVE';
+                badge.style.background = isActive ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)';
+                badge.style.color = isActive ? '#10b981' : '#ef4444';
+                badge.textContent = data.newStatus;
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            e.target.disabled = false;
+        }
+    });
+});
+</script>

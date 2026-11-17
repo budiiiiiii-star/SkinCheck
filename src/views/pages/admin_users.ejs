@@ -1,0 +1,94 @@
+<!-- Admin Users Management Page -->
+<div class="slide-up">
+
+    <div class="page-header">
+        <h1 class="page-header-title">User Management</h1>
+        <p class="page-header-subtitle">Kelola akun dan status pengguna platform.</p>
+    </div>
+
+    <!-- Table Card -->
+    <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);">
+        <div style="padding:18px 22px;border-bottom:1px solid var(--border-color);display:flex;align-items:center;gap:12px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:rgba(124,58,237,0.1);display:flex;align-items:center;justify-content:center;color:var(--brand-primary);">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <h3 style="font-size:0.9rem;font-weight:700;margin:0;color:var(--text-primary);">Daftar Pengguna</h3>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th style="padding:14px 20px;">Nama</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Terdaftar</th>
+                        <th style="text-align:right;padding-right:20px;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% usersList.forEach(u => { %>
+                        <tr>
+                            <td style="padding:14px 20px;font-weight:600;color:var(--text-primary);">
+                                <div style="display:flex;align-items:center;gap:10px;">
+                                    <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;color:white;font-size:0.8rem;font-weight:700;flex-shrink:0;">
+                                        <%= u.name.charAt(0).toUpperCase() %>
+                                    </div>
+                                    <%= u.name %>
+                                    <% const isRecent = (Date.now() - new Date(u.created_at).getTime()) < 24 * 3600 * 1000; %>
+                                    <% if (isRecent) { %>
+                                        <span style="font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:6px;background:rgba(124,58,237,0.12);color:var(--brand-primary);margin-left:6px;" title="Baru mendaftar dalam 24 jam terakhir">BARU</span>
+                                    <% } %>
+                                </div>
+                            </td>
+                            <td style="color:var(--text-muted);font-size:0.875rem;"><%= u.email %></td>
+                            <td>
+                                <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-size:0.72rem;font-weight:600;background:<%= u.status === 'ACTIVE' ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)' %>;color:<%= u.status === 'ACTIVE' ? '#10b981' : '#ef4444' %>;" class="status-badge-<%= u.id %>">
+                                    <span style="width:6px;height:6px;border-radius:50%;background:currentColor;"></span>
+                                    <%= u.status %>
+                                </span>
+                            </td>
+                            <td style="color:var(--text-muted);font-size:0.875rem;"><%= new Date(u.created_at).toLocaleDateString('id-ID') %></td>
+                            <td style="text-align:right;padding-right:20px;">
+                                <button class="btn btn-secondary btn-sm toggle-btn" data-id="<%= u.id %>" data-status="<%= u.status %>" id="admin-toggle-user-<%= u.id %>">
+                                    <%= u.status === 'ACTIVE' ? 'Deactivate' : 'Activate' %>
+                                </button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+        const userId = e.target.getAttribute('data-id');
+        const currentStatus = e.target.getAttribute('data-status');
+        e.target.disabled = true;
+        try {
+            const res = await fetch('/admin/users/toggle', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, status: currentStatus })
+            });
+            const data = await res.json();
+            if (data.success) {
+                e.target.setAttribute('data-status', data.newStatus);
+                e.target.textContent = data.newStatus === 'ACTIVE' ? 'Deactivate' : 'Activate';
+                const badge = document.querySelector(`.status-badge-${userId}`);
+                const isActive = data.newStatus === 'ACTIVE';
+                badge.style.background = isActive ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)';
+                badge.style.color = isActive ? '#10b981' : '#ef4444';
+                badge.innerHTML = `<span style="width:6px;height:6px;border-radius:50%;background:currentColor;"></span>${data.newStatus}`;
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            e.target.disabled = false;
+        }
+    });
+});
+</script>

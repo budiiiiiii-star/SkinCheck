@@ -1,0 +1,150 @@
+<!-- Landing / Index Page â€” Full Page Auth Layout -->
+<div class="landing-layout">
+
+    <!-- Nav -->
+    <nav class="landing-nav">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div
+                style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#a855f7,#ec4899);display:flex;align-items:center;justify-content:center;color:white;font-size:0.95rem;">
+                <i class="fa-solid fa-leaf"></i>
+            </div>
+            <span
+                style="font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,#7c3aed,#a855f7,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">SkinCheck</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;">
+            <!-- Theme toggle -->
+            <button class="theme-toggle" id="theme-toggle" title="Toggle Theme" aria-label="Toggle Theme">
+                <div class="theme-toggle-icons">
+                    <i class="fa-solid fa-sun" style="font-size:0.6rem;color:#f59e0b;"></i>
+                    <i class="fa-solid fa-moon" style="font-size:0.6rem;color:#7c3aed;"></i>
+                </div>
+                <div class="theme-toggle-thumb" id="theme-thumb">
+                    <i class="fa-solid fa-sun" style="font-size:0.5rem;"></i>
+                </div>
+            </button>
+            <a href="/whatsapp/verify" class="btn btn-outline-success btn-sm"
+                style="border-color:#25d366;color:#25d366;"><i class="fa-brands fa-whatsapp me-1"></i>Cek WA</a>
+            <a href="/login" class="btn btn-secondary btn-sm">Masuk</a>
+            <a href="/register" class="btn btn-primary btn-sm">Daftar</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="landing-hero">
+        <!-- Text Side -->
+        <div class="landing-hero-text slide-up">
+            <div class="landing-hero-pill">
+                <i class="fa-solid fa-sparkles"></i>
+                AI-Powered Skincare Platform
+            </div>
+            <h1 class="landing-hero-title">
+                Kenali Kulit Anda<br><span>Lebih Baik</span> dengan AI
+            </h1>
+            <p class="landing-hero-desc">
+                Pantau kondisi kulit secara visual, cek pemerataan sunscreen, dan dapatkan rekomendasi skincare personal
+                menggunakan teknologi kecerdasan buatan.
+            </p>
+
+            <div class="landing-features">
+                <div class="landing-feature-item">
+                    <div class="landing-feature-icon"><i class="fa-solid fa-check"></i></div>
+                    Analisis Kulit Visual Berbasis AI
+                </div>
+                <div class="landing-feature-item">
+                    <div class="landing-feature-icon"><i class="fa-solid fa-check"></i></div>
+                    Deteksi Pemerataan Sunscreen Real-time
+                </div>
+                <div class="landing-feature-item">
+                    <div class="landing-feature-icon"><i class="fa-solid fa-check"></i></div>
+                    Asisten Skincare Personal 24/7
+                </div>
+                <div class="landing-feature-item">
+                    <div class="landing-feature-icon"><i class="fa-solid fa-check"></i></div>
+                    Tracking Progress Kulit dari Waktu ke Waktu
+                </div>
+            </div>
+
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                <a href="/login" class="btn btn-primary btn-lg" id="hero-login-btn">
+                    <i class="fa-solid fa-right-to-bracket"></i> Masuk ke Akun
+                </a>
+                <a href="/register" class="btn btn-secondary btn-lg" id="hero-register-btn">
+                    <i class="fa-solid fa-user-plus"></i> Daftar Akun
+                </a>
+            </div>
+        </div>
+
+        <!-- Card Side -->
+        <div class="landing-hero-card slide-up" style="animation-delay:0.1s;">
+            <div style="text-align:center;margin-bottom:24px;">
+                <div
+                    style="width:60px;height:60px;border-radius:18px;background:linear-gradient(135deg,#7c3aed,#a855f7,#ec4899);display:flex;align-items:center;justify-content:center;color:white;font-size:1.5rem;margin:0 auto 12px;">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <h2 class="auth-title" style="font-size:1.4rem;">Selamat Datang</h2>
+                <p style="font-size:0.875rem;color:var(--text-muted);">Bergabung dengan ribuan pengguna</p>
+            </div>
+
+            <a href="/register" class="btn btn-primary btn-lg" style="width:100%;margin-bottom:12px;"
+                id="landing-register-btn">
+                <i class="fa-solid fa-user-plus"></i> Daftar Sekarang
+            </a>
+            <a href="/login" class="btn btn-secondary btn-lg" style="width:100%;margin-bottom:20px;"
+                id="landing-login-btn">
+                <i class="fa-solid fa-right-to-bracket"></i> Login ke Akun
+            </a>
+
+            <div style="border-top:1px solid var(--border-color);padding-top:20px;">
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.8rem;color:var(--text-muted);">
+                        <div
+                            style="width:32px;height:32px;border-radius:10px;background:rgba(124,58,237,0.1);display:flex;align-items:center;justify-content:center;color:#7c3aed;font-size:0.8rem;flex-shrink:0;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        Data foto hanya digunakan untuk analisis AI
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.8rem;color:var(--text-muted);">
+                        <div
+                            style="width:32px;height:32px;border-radius:10px;background:rgba(16,185,129,0.1);display:flex;align-items:center;justify-content:center;color:#10b981;font-size:0.8rem;flex-shrink:0;">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        Privasi & keamanan data terjaga
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.8rem;color:var(--text-muted);">
+                        <div
+                            style="width:32px;height:32px;border-radius:10px;background:rgba(6,182,212,0.1);display:flex;align-items:center;justify-content:center;color:#06b6d4;font-size:0.8rem;flex-shrink:0;">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        Bukan pengganti diagnosis medis profesional
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    (function () {
+        const html = document.documentElement;
+        const savedTheme = localStorage.getItem('sc-theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeThumb = document.getElementById('theme-thumb');
+        function updateThumbIcon(theme) {
+            if (!themeThumb) return;
+            themeThumb.innerHTML = theme === 'dark'
+                ? '<i class="fa-solid fa-moon" style="font-size:0.5rem;"></i>'
+                : '<i class="fa-solid fa-sun" style="font-size:0.5rem;"></i>';
+        }
+        updateThumbIcon(savedTheme);
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', next);
+                localStorage.setItem('sc-theme', next);
+                updateThumbIcon(next);
+            });
+        }
+    })();
+</script>

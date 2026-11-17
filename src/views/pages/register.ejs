@@ -1,0 +1,341 @@
+<!-- Register Page — Full page auth layout -->
+<div class="auth-layout">
+    <div class="auth-box">
+        <!-- Brand -->
+        <div class="auth-brand">
+            <div class="auth-brand-icon"><i class="fa-solid fa-leaf"></i></div>
+            <span class="auth-brand-name">SkinCheck</span>
+        </div>
+
+        <!-- Theme toggle -->
+        <div style="position:fixed;top:20px;right:20px;z-index:100;">
+            <button class="theme-toggle" id="theme-toggle" title="Toggle Theme" aria-label="Toggle Theme">
+                <div class="theme-toggle-icons">
+                    <i class="fa-solid fa-sun" style="font-size:0.6rem;color:#f59e0b;"></i>
+                    <i class="fa-solid fa-moon" style="font-size:0.6rem;color:#7c3aed;"></i>
+                </div>
+                <div class="theme-toggle-thumb" id="theme-thumb">
+                    <i class="fa-solid fa-sun" style="font-size:0.5rem;"></i>
+                </div>
+            </button>
+        </div>
+
+        <div class="auth-card fade-in">
+            <h1 class="auth-title">Mulai Perjalanan Baru ✨</h1>
+            <p class="auth-subtitle">Buat akun SkinCheck Anda sekarang, gratis!</p>
+
+            <% if (locals.error) { %>
+                <div class="alert alert-danger mb-4">
+                    <i class="fa-solid fa-circle-exclamation me-2"></i><%= error %>
+                </div>
+            <% } %>
+
+            <form action="/register" method="POST" id="register-form">
+                <div class="mb-3">
+                    <label class="form-label" for="reg-name">Nama Lengkap</label>
+                    <input type="text" id="reg-name" name="name" class="form-control form-control-lg" placeholder="John Doe" required autocomplete="name">
+                </div>
+
+                <!-- Nomor WhatsApp & Kode Verifikasi via Fonnte OTP -->
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label class="form-label mb-0" for="reg-phone">Nomor WhatsApp</label>
+                        <span class="badge rounded-pill" style="font-size:0.75rem; background:rgba(37,211,102,0.15); color:#25d366; font-weight:600; padding:4px 8px;">
+                            <i class="fa-brands fa-whatsapp me-1"></i>OTP via Fonnte
+                        </span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text" style="background:rgba(37,211,102,0.08); border-color:var(--border-color, #e2e8f0); color:#25d366;">
+                            <i class="fa-brands fa-whatsapp fs-5"></i>
+                        </span>
+                        <input type="tel" id="reg-phone" name="phoneNumber" class="form-control form-control-lg" placeholder="0823xxx atau +628xxx" required autocomplete="tel">
+                        <button type="button" class="btn btn-outline-success px-3 fw-medium" id="btn-send-otp" style="border-color:#25d366; color:#25d366;">
+                            <span id="btn-send-text"><i class="fa-solid fa-paper-plane me-1"></i>Kirim Kode</span>
+                            <span id="btn-send-loading" class="d-none">
+                                <span class="spinner-border spinner-border-sm me-1" role="status"></span>Mengirim...
+                            </span>
+                        </button>
+                    </div>
+                    <div id="wa-feedback" class="mt-2 small" style="font-size:0.825rem; color:var(--text-muted);">
+                        <i class="fa-solid fa-circle-info me-1"></i>Masukkan nomor WhatsApp Anda lalu klik <b>Kirim Kode</b> untuk mendapatkan kode OTP.
+                    </div>
+
+                    <!-- Input Box Kode OTP (Muncul setelah klik Kirim Kode) -->
+                    <div id="otp-container" class="mt-3 p-3 rounded border" style="display:none; background:rgba(37,211,102,0.05); border-color:rgba(37,211,102,0.3) !important;">
+                        <label class="form-label d-flex justify-content-between align-items-center mb-2" for="reg-otp" style="font-size:0.875rem; font-weight:600;">
+                            <span><i class="fa-solid fa-key text-success me-1"></i>Masukkan 6 Digit Kode OTP</span>
+                            <span id="otp-timer-badge" class="badge rounded-pill bg-light text-dark border" style="font-size:0.75rem;"></span>
+                        </label>
+                        <div class="input-group">
+                            <input type="text" id="reg-otp" class="form-control form-control-lg text-center fw-bold" placeholder="123456" maxlength="6" inputmode="numeric" style="letter-spacing:6px; font-size:1.25rem;">
+                            <button type="button" class="btn btn-success px-4 fw-semibold" id="btn-verify-otp">
+                                <span id="btn-verify-text"><i class="fa-solid fa-circle-check me-1"></i>Verifikasi</span>
+                                <span id="btn-verify-loading" class="d-none">
+                                    <span class="spinner-border spinner-border-sm me-1" role="status"></span>Memeriksa...
+                                </span>
+                            </button>
+                        </div>
+                        <div id="otp-feedback" class="mt-2 small" style="font-size:0.825rem; color:var(--text-muted);">
+                            <i class="fa-brands fa-whatsapp text-success me-1"></i>Kode verifikasi telah dikirimkan ke WhatsApp Anda.
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="whatsappVerified" id="wa-verified-status" value="false">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="reg-email">Email</label>
+                    <input type="email" id="reg-email" name="email" class="form-control form-control-lg" placeholder="nama@email.com" required autocomplete="email">
+                </div>
+                <div class="mb-5">
+                    <label class="form-label" for="reg-password">Password</label>
+                    <div style="position:relative;">
+                        <input type="password" id="reg-password" name="password" class="form-control form-control-lg" placeholder="Minimal 6 karakter" minlength="6" required autocomplete="new-password" style="padding-right:46px;">
+                        <button type="button" id="toggle-pwd-reg" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.9rem;" aria-label="Toggle Password">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg" style="width:100%;" id="register-submit-btn">
+                    <i class="fa-solid fa-user-plus"></i> Buat Akun
+                </button>
+            </form>
+
+            <div class="mt-4 pt-3 border-top text-center" style="border-color: rgba(255,255,255,0.08) !important;">
+                <p style="margin-bottom:8px;font-size:0.875rem;color:var(--text-muted);">
+                    Ingin cek nomor WhatsApp tanpa daftar?
+                    <a href="/whatsapp/verify" style="color:#25d366;font-weight:600;" id="reg-wa-checker-link">
+                        <i class="fa-brands fa-whatsapp me-1"></i>Cek Nomor WA Di Sini
+                    </a>
+                </p>
+                <p style="margin-bottom:0;font-size:0.875rem;color:var(--text-muted);">
+                    Sudah punya akun?
+                    <a href="/login" style="color:var(--brand-primary);font-weight:600;" id="reg-login-link">Masuk di sini</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('sc-theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+    const themeBtn = document.getElementById('theme-toggle');
+    const themeThumb = document.getElementById('theme-thumb');
+    function updateThumbIcon(theme) {
+        if (!themeThumb) return;
+        themeThumb.innerHTML = theme === 'dark'
+            ? '<i class="fa-solid fa-moon" style="font-size:0.5rem;"></i>'
+            : '<i class="fa-solid fa-sun" style="font-size:0.5rem;"></i>';
+    }
+    updateThumbIcon(savedTheme);
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('sc-theme', next);
+            updateThumbIcon(next);
+        });
+    }
+
+    const toggleBtn = document.getElementById('toggle-pwd-reg');
+    const pwdInput = document.getElementById('reg-password');
+    if (toggleBtn && pwdInput) {
+        toggleBtn.addEventListener('click', () => {
+            const isText = pwdInput.type === 'text';
+            pwdInput.type = isText ? 'password' : 'text';
+            toggleBtn.innerHTML = isText
+                ? '<i class="fa-regular fa-eye"></i>'
+                : '<i class="fa-regular fa-eye-slash"></i>';
+        });
+    }
+
+    // WhatsApp OTP Verification Logic via Fonnte API
+    const phoneInput = document.getElementById('reg-phone');
+    const sendOtpBtn = document.getElementById('btn-send-otp');
+    const btnSendText = document.getElementById('btn-send-text');
+    const btnSendLoading = document.getElementById('btn-send-loading');
+    const waFeedback = document.getElementById('wa-feedback');
+    const statusHidden = document.getElementById('wa-verified-status');
+
+    const otpContainer = document.getElementById('otp-container');
+    const otpInput = document.getElementById('reg-otp');
+    const verifyOtpBtn = document.getElementById('btn-verify-otp');
+    const btnVerifyText = document.getElementById('btn-verify-text');
+    const btnVerifyLoading = document.getElementById('btn-verify-loading');
+    const otpFeedback = document.getElementById('otp-feedback');
+    const regForm = document.getElementById('register-form');
+
+    let cooldownTimer = null;
+
+    function startCooldown(seconds) {
+        let remaining = seconds;
+        sendOtpBtn.disabled = true;
+        btnSendText.innerHTML = `<i class="fa-solid fa-clock me-1"></i>Kirim Ulang (${remaining}s)`;
+
+        clearInterval(cooldownTimer);
+        cooldownTimer = setInterval(() => {
+            remaining--;
+            if (remaining <= 0) {
+                clearInterval(cooldownTimer);
+                sendOtpBtn.disabled = false;
+                btnSendText.innerHTML = '<i class="fa-solid fa-paper-plane me-1"></i>Kirim Kode';
+            } else {
+                btnSendText.innerHTML = `<i class="fa-solid fa-clock me-1"></i>Kirim Ulang (${remaining}s)`;
+            }
+        }, 1000);
+    }
+
+    // Reset status verifikasi saat input nomor diganti
+    phoneInput.addEventListener('input', () => {
+        if (statusHidden.value === 'true') {
+            statusHidden.value = 'false';
+            phoneInput.classList.remove('is-valid');
+            otpContainer.style.display = 'none';
+            otpInput.value = '';
+            waFeedback.innerHTML = '<i class="fa-solid fa-circle-info me-1"></i>Nomor diubah. Silakan kirim kode verifikasi kembali.';
+            waFeedback.className = 'mt-2 small text-warning';
+        }
+    });
+
+    // Kirim Kode OTP via WhatsApp
+    sendOtpBtn.addEventListener('click', async () => {
+        const phoneVal = phoneInput.value.trim();
+        if (!phoneVal) {
+            phoneInput.classList.add('is-invalid');
+            waFeedback.innerHTML = '<span class="text-danger"><i class="fa-solid fa-circle-exclamation me-1"></i>Masukkan nomor WhatsApp Anda terlebih dahulu.</span>';
+            phoneInput.focus();
+            return;
+        }
+
+        phoneInput.classList.remove('is-invalid');
+        sendOtpBtn.disabled = true;
+        btnSendText.classList.add('d-none');
+        btnSendLoading.classList.remove('d-none');
+        waFeedback.innerHTML = '<span class="text-info"><span class="spinner-border spinner-border-sm me-1" role="status"></span>Mengirim kode OTP ke WhatsApp...</span>';
+
+        try {
+            const res = await fetch('/api/whatsapp/send-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phoneNumber: phoneVal })
+            });
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                waFeedback.innerHTML = '<span class="text-danger"><i class="fa-solid fa-circle-xmark me-1"></i>' + (data.message || 'Gagal mengirim kode verifikasi.') + '</span>';
+                if (data.retryAfter) {
+                    startCooldown(data.retryAfter);
+                } else {
+                    sendOtpBtn.disabled = false;
+                }
+                return;
+            }
+
+            // Tampilkan kotak input OTP
+            otpContainer.style.display = 'block';
+            otpInput.value = '';
+            otpInput.classList.remove('is-invalid', 'is-valid');
+            otpFeedback.innerHTML = '<span class="text-success fw-medium"><i class="fa-brands fa-whatsapp me-1"></i>Kode 6-digit terkirim ke WhatsApp <b>' + (data.normalizedPhone || phoneVal) + '</b>. Silakan periksa pesan Anda!</span>';
+            waFeedback.innerHTML = '<span class="text-success"><i class="fa-solid fa-circle-check me-1"></i>Kode verifikasi berhasil dikirim.</span>';
+            
+            startCooldown(data.resendIn || 60);
+            otpInput.focus();
+
+        } catch (err) {
+            waFeedback.innerHTML = '<span class="text-danger"><i class="fa-solid fa-circle-exclamation me-1"></i>Gagal menghubungi server verifikasi.</span>';
+            sendOtpBtn.disabled = false;
+        } finally {
+            btnSendText.classList.remove('d-none');
+            btnSendLoading.classList.add('d-none');
+        }
+    });
+
+    // Verifikasi Kode OTP yang dimasukkan user
+    verifyOtpBtn.addEventListener('click', async () => {
+        const phoneVal = phoneInput.value.trim();
+        const otpVal = otpInput.value.trim();
+
+        if (!otpVal || otpVal.length !== 6) {
+            otpInput.classList.add('is-invalid');
+            otpFeedback.innerHTML = '<span class="text-danger"><i class="fa-solid fa-circle-exclamation me-1"></i>Masukkan 6 digit kode verifikasi.</span>';
+            otpInput.focus();
+            return;
+        }
+
+        verifyOtpBtn.disabled = true;
+        btnVerifyText.classList.add('d-none');
+        btnVerifyLoading.classList.remove('d-none');
+        otpFeedback.innerHTML = '<span class="text-info"><span class="spinner-border spinner-border-sm me-1" role="status"></span>Memverifikasi kode...</span>';
+
+        try {
+            const res = await fetch('/api/whatsapp/verify-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phoneNumber: phoneVal, otp: otpVal })
+            });
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                statusHidden.value = 'false';
+                otpInput.classList.add('is-invalid');
+                otpFeedback.innerHTML = '<span class="text-danger fw-semibold"><i class="fa-solid fa-circle-xmark me-1"></i>' + (data.message || 'Kode OTP salah.') + '</span>';
+                return;
+            }
+
+            // Berhasil diverifikasi
+            statusHidden.value = 'true';
+            phoneInput.classList.add('is-valid');
+            phoneInput.readOnly = true;
+            otpInput.classList.remove('is-invalid');
+            otpInput.classList.add('is-valid');
+            otpInput.readOnly = true;
+            
+            clearInterval(cooldownTimer);
+            sendOtpBtn.classList.add('d-none');
+            
+            otpContainer.style.background = 'rgba(37,211,102,0.12)';
+            otpContainer.style.borderColor = '#25d366';
+            otpContainer.innerHTML = `
+                <div class="d-flex align-items-center text-success py-1">
+                    <i class="fa-solid fa-circle-check fs-4 me-2"></i>
+                    <div>
+                        <div class="fw-bold">Nomor WhatsApp Terverifikasi!</div>
+                        <div class="small text-muted">Nomor ${data.normalizedPhone || phoneVal} siap digunakan. Silakan lanjutkan pendaftaran.</div>
+                    </div>
+                </div>
+            `;
+            waFeedback.innerHTML = '<span class="text-success fw-semibold"><i class="fa-solid fa-check-double me-1"></i>Nomor WhatsApp berhasil diverifikasi via OTP!</span>';
+
+        } catch (err) {
+            otpFeedback.innerHTML = '<span class="text-danger"><i class="fa-solid fa-circle-exclamation me-1"></i>Gagal memverifikasi kode OTP.</span>';
+        } finally {
+            verifyOtpBtn.disabled = false;
+            btnVerifyText.classList.remove('d-none');
+            btnVerifyLoading.classList.add('d-none');
+        }
+    });
+
+    // Otomatis verifikasi saat pengguna selesai mengetik 6 digit
+    otpInput.addEventListener('input', () => {
+        otpInput.value = otpInput.value.replace(/[^0-9]/g, '');
+        if (otpInput.value.length === 6) {
+            verifyOtpBtn.click();
+        }
+    });
+
+    // Validasi form sebelum submit
+    regForm.addEventListener('submit', (e) => {
+        if (statusHidden.value !== 'true') {
+            e.preventDefault();
+            waFeedback.innerHTML = '<span class="text-danger fw-bold"><i class="fa-solid fa-triangle-exclamation me-1"></i>Harap verifikasi nomor WhatsApp Anda dengan kode OTP terlebih dahulu!</span>';
+            phoneInput.focus();
+            if (otpContainer.style.display === 'block') {
+                otpInput.focus();
+            }
+        }
+    });
+})();
+</script>

@@ -1,0 +1,265 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+3 0 obj
+<< /Length 1588 >>
+stream
+q 0.93 0.91 0.99 rg 45.0 600.0 240.0 24.0 re f Q
+q 0.43 0.16 0.85 rg BT /F2 9 Tf 57.0 608.0 Td (TAHAP 1: INISIASI & PENYUSUNAN PRD) Tj ET Q
+q 0.30 0.11 0.58 rg BT /F2 23 Tf 45.0 575.0 Td (SkinCheck: AI-Powered Platform) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 14.5 Tf 45.0 548.0 Td (Skin Health Monitoring & Skincare Assistant) Tj ET Q
+q 0.45 0.52 0.63 rg BT /F1 10 Tf 45.0 520.0 Td (Product Requirement Document \(PRD\) & Software Requirements Specification \(SRS\)) Tj ET Q
+q 0.98 0.98 0.99 rg 0.88 0.90 0.94 RG 1 w 45.0 350.0 505.0 130.0 re B Q
+q 0.30 0.35 0.45 rg BT /F2 9 Tf 60.0 460.0 Td (Nama Aplikasi) Tj ET Q
+q 0.15 0.20 0.28 rg BT /F1 9 Tf 195.0 460.0 Td (: SkinCheck Web Application) Tj ET Q
+q 0.30 0.35 0.45 rg BT /F2 9 Tf 60.0 442.0 Td (Versi Dokumen) Tj ET Q
+q 0.15 0.20 0.28 rg BT /F1 9 Tf 195.0 442.0 Td (: 1.0.0 \(Baseline Spesifikasi Tahap 1\)) Tj ET Q
+q 0.30 0.35 0.45 rg BT /F2 9 Tf 60.0 424.0 Td (Arsitektur Sistem) Tj ET Q
+q 0.15 0.20 0.28 rg BT /F1 9 Tf 195.0 424.0 Td (: Node.js Express, PostgreSQL, Multi-LLM, Computer Vision) Tj ET Q
+q 0.30 0.35 0.45 rg BT /F2 9 Tf 60.0 406.0 Td (Integrasi Eksternal) Tj ET Q
+q 0.15 0.20 0.28 rg BT /F1 9 Tf 195.0 406.0 Td (: Fonnte WhatsApp API, NVIDIA NIM, Google Gemini, OpenAI, Claude) Tj ET Q
+q 0.30 0.35 0.45 rg BT /F2 9 Tf 60.0 388.0 Td (Penyusun & Tanggal) Tj ET Q
+q 0.15 0.20 0.28 rg BT /F1 9 Tf 195.0 388.0 Td (: Tim Pengembang SkinCheck / November 2026) Tj ET Q
+q 0.30 0.35 0.45 rg BT /F2 9 Tf 60.0 370.0 Td (Status Dokumen) Tj ET Q
+q 0.15 0.20 0.28 rg BT /F1 9 Tf 195.0 370.0 Td (: RESMI & DISETUJUI \(APPROVED\)) Tj ET Q
+endstream
+endobj
+4 0 obj
+<< /Length 4137 >>
+stream
+q 0.50 0.55 0.65 rg BT /F1 8 Tf 45.0 810.0 Td (Dokumen PRD & SRS - SkinCheck Web Platform \(Tahap 1\)) Tj ET Q
+q 0.88 0.90 0.94 RG 0.5 w 45.0 806.0 m 550.0 806.0 l S Q
+q 0.30 0.11 0.58 rg BT /F2 15 Tf 45.0 781.0 Td (1. Latar Belakang & Problem Statement) Tj ET Q
+q 0.93 0.91 0.99 rg 45.0 777.0 505.0 1.5 re f Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 763.0 Td (Kesehatan kulit dan penampilan wajah merupakan kebutuhan mendasar bagi masyarakat modern. Meski minat) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 750.0 Td (terhadap produk perawatan kulit meningkat pesat, konsumen menghadapi permasalahan:) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 733.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 733.0 Td (Asimetri Informasi & Risiko Salah Perawatan: Masyarakat sering membeli produk kosmetik bebas tanpa) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 720.0 Td (memahami profil kulitnya, memicu kerusakan barier kulit.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 704.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 704.0 Td (Kesalahan Aplikasi Sunscreen: Sebagian besar pengguna tabir surya tidak mengetahui apakah aplikasi) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 691.0 Td (krim sudah merata di seluruh wajah atau masih memiliki area rawan paparan UV.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 675.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 675.0 Td (Hambatan Biaya & Akses Klinis: Kunjungan ke dokter spesialis dermatologi membutuhkan biaya yang) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 662.0 Td (tidak sedikit untuk pemantauan rutin harian.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 646.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 646.0 Td (Preferensi Kanal Komunikasi WhatsApp: Saluran pesan instan WhatsApp merupakan kanal dengan) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 633.0 Td (keterbukaan tertinggi untuk proses verifikasi dan laporan akun di Indonesia.) Tj ET Q
+q 0.98 0.96 1.00 rg 0.90 0.90 0.95 RG 0.5 w 45.0 563.5 505.0 63.5 re B Q
+q 0.58 0.20 0.92 rg 45.0 563.5 4.0 63.5 re f Q
+q 0.58 0.20 0.92 rg BT /F2 9.5 Tf 60.0 612.0 Td (Visi Produk SkinCheck) Tj ET Q
+q 0.25 0.30 0.40 rg BT /F1 9 Tf 60.0 598.0 Td (SkinCheck hadir sebagai platform web cerdas berbasis AI yang menyediakan pemantauan visual kulit,) Tj ET Q
+q 0.25 0.30 0.40 rg BT /F1 9 Tf 60.0 585.5 Td (evaluasi pemerataan tabir surya via Heatmap interaktif, konsultasi AI 24/7, serta rekomendasi produk) Tj ET Q
+q 0.25 0.30 0.40 rg BT /F1 9 Tf 60.0 573.0 Td (OTC berkeamanan medis tinggi.) Tj ET Q
+q 0.30 0.11 0.58 rg BT /F2 15 Tf 45.0 530.5 Td (2. Profil Pengguna \(User Persona\) & Ruang Lingkup) Tj ET Q
+q 0.93 0.91 0.99 rg 45.0 526.5 505.0 1.5 re f Q
+q 0.95 0.96 0.98 rg 0.80 0.84 0.88 RG 0.5 w 45.0 489.5 505.0 22.0 re B Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 51.0 499.5 Td (Peran \(Role\)) Tj ET Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 141.0 499.5 Td (Deskripsi) Tj ET Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 281.0 499.5 Td (Tanggung Jawab & Hak Akses dalam Sistem) Tj ET Q
+q 1.00 1.00 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 467.5 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 477.5 Td (Guest) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 141.0 477.5 Td (Pengunjung belum login) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 281.0 477.5 Td (Melihat landing page, cek validitas WhatsApp publik, registrasi & login.) Tj ET Q
+q 0.98 0.99 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 445.5 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 455.5 Td (Customer) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 141.0 455.5 Td (Pengguna terdaftar) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 281.0 455.5 Td (Onboarding profil kulit, scan wajah, scan sunscreen heatmap, AI Chat streaming.) Tj ET Q
+q 1.00 1.00 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 423.5 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 433.5 Td (Admin) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 141.0 433.5 Td (Administrator platform) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 281.0 433.5 Td (Monitor metrik, kelola katalog produk OTC, switch provider AI & Fonnte WA.) Tj ET Q
+q 0.50 0.55 0.65 rg BT /F1 8 Tf 470.0 25.0 Td (Halaman 2 dari 5) Tj ET Q
+endstream
+endobj
+5 0 obj
+<< /Length 4685 >>
+stream
+q 0.50 0.55 0.65 rg BT /F1 8 Tf 45.0 810.0 Td (Dokumen PRD & SRS - SkinCheck Web Platform \(Tahap 1\)) Tj ET Q
+q 0.88 0.90 0.94 RG 0.5 w 45.0 806.0 m 550.0 806.0 l S Q
+q 0.30 0.11 0.58 rg BT /F2 15 Tf 45.0 781.0 Td (3. Kebutuhan Fungsional \(User Stories\)) Tj ET Q
+q 0.93 0.91 0.99 rg 45.0 777.0 505.0 1.5 re f Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 763.0 Td (User stories disusun menggunakan format standar As a [Role], I want to [Action], so that [Benefit]:) Tj ET Q
+q 0.95 0.96 0.98 rg 0.80 0.84 0.88 RG 0.5 w 45.0 723.0 505.0 22.0 re B Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 51.0 733.0 Td (ID) Tj ET Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 86.0 733.0 Td (Role) Tj ET Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 141.0 733.0 Td (User Story) Tj ET Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 346.0 733.0 Td (Kriteria Penerimaan \(Acceptance Criteria\)) Tj ET Q
+q 1.00 1.00 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 701.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 711.0 Td (US-01) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 86.0 711.0 Td (Customer) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 141.0 711.0 Td (Daftar akun & onboarding profil kulit) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 346.0 711.0 Td (Input nama, email, password; isi kuesioner jenis kulit & keluhan.) Tj ET Q
+q 0.98 0.99 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 679.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 689.0 Td (US-02) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 86.0 689.0 Td (Customer) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 141.0 689.0 Td (Upload foto wajah untuk scan kondisi kulit) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 346.0 689.0 Td (Mendapatkan 4 skor \(jerawat, kemerahan, tekstur, hiperpigmentasi\).) Tj ET Q
+q 1.00 1.00 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 657.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 667.0 Td (US-03) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 86.0 667.0 Td (Customer) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 141.0 667.0 Td (Upload foto wajah untuk scan sunscreen) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 346.0 667.0 Td (Menerima skor cakupan \(%\) dan gambar heatmap area minim coverage.) Tj ET Q
+q 0.98 0.99 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 635.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 645.0 Td (US-04) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 86.0 645.0 Td (Customer) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 141.0 645.0 Td (Konsultasi via AI Skincare Chatbot) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 346.0 645.0 Td (Mendapatkan jawaban edukatif streaming \(SSE\) & saran produk OTC.) Tj ET Q
+q 1.00 1.00 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 613.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 623.0 Td (US-05) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 86.0 623.0 Td (Customer) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 141.0 623.0 Td (Verifikasi nomor WhatsApp & OTP Fonnte) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 346.0 623.0 Td (Menerima kode OTP via WA; nomor tervalidasi ke format 628xxx.) Tj ET Q
+q 0.98 0.99 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 591.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 601.0 Td (US-06) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 86.0 601.0 Td (Customer) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 141.0 601.0 Td (Melihat dashboard progres & rekomendasi) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 346.0 601.0 Td (Histori pemindaian tersimpan; melihat daftar produk yang cocok.) Tj ET Q
+q 1.00 1.00 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 569.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 579.0 Td (US-07) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 86.0 579.0 Td (Admin) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 141.0 579.0 Td (Akses dasbor analitik & monitoring scan) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 346.0 579.0 Td (Statistik user aktif, grafik scan harian, panel notifikasi sistem.) Tj ET Q
+q 0.98 0.99 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 547.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 557.0 Td (US-08) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 86.0 557.0 Td (Admin) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 141.0 557.0 Td (Manajemen katalog produk skincare OTC) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 346.0 557.0 Td (Tambah/edit produk, kelola bahan aktif, toggle status produk aktif.) Tj ET Q
+q 1.00 1.00 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 525.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 535.0 Td (US-09) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 86.0 535.0 Td (Admin) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 141.0 535.0 Td (Pengaturan provider AI & Fonnte WhatsApp) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 346.0 535.0 Td (Ganti provider AI \(NVIDIA, Gemini, OpenAI, dll\) & tes ping koneksi.) Tj ET Q
+q 0.50 0.55 0.65 rg BT /F1 8 Tf 470.0 25.0 Td (Halaman 3 dari 5) Tj ET Q
+endstream
+endobj
+6 0 obj
+<< /Length 3492 >>
+stream
+q 0.50 0.55 0.65 rg BT /F1 8 Tf 45.0 810.0 Td (Dokumen PRD & SRS - SkinCheck Web Platform \(Tahap 1\)) Tj ET Q
+q 0.88 0.90 0.94 RG 0.5 w 45.0 806.0 m 550.0 806.0 l S Q
+q 0.30 0.11 0.58 rg BT /F2 15 Tf 45.0 781.0 Td (4. Spesifikasi Fitur Kecerdasan Buatan \(AI\)) Tj ET Q
+q 0.93 0.91 0.99 rg 45.0 777.0 505.0 1.5 re f Q
+q 0.42 0.13 0.66 rg BT /F2 12 Tf 45.0 751.0 Td (4.1 Computer Vision: Skin Analysis & Sunscreen Heatmap) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 737.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 737.0 Td (Skin Health Visual Analysis: Menganalisis citra wajah pengguna untuk menghasilkan estimasi skor) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 724.0 Td (visual: Acne-like Blemish, Redness/Erythema, Texture Smoothness, dan Hyperpigmentation beserta) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 711.0 Td (ringkasan visual non-medis.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 695.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 695.0 Td (Sunscreen Coverage Estimation: Mendeteksi sebaran krim tabir surya di wajah, mengkalkulasi) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 682.0 Td (persentase perlindungan area wajah, dan menyintesis gambar visualisasi Heatmap \(Gradien) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 669.0 Td (Hijau-Kuning-Merah\) untuk menunjukkan blind spot.) Tj ET Q
+q 0.42 0.13 0.66 rg BT /F2 12 Tf 45.0 641.0 Td (4.2 Conversational AI: Multi-Provider LLM & RAG Orchestrator) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 627.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 627.0 Td (Multi-Provider Factory: Mendukung pertukaran dinamis antara NVIDIA NIM \(Llama 3.2 Vision\), Google) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 614.0 Td (Gemini 2.0 Flash, OpenAI GPT-4o, Anthropic Claude, Groq, dan Ollama melalui konfigurasi sistem) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 601.0 Td (tanpa downtime.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 585.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 585.0 Td (Context Builder & RAG Service: Menggabungkan riwayat profil kulit customer dengan basis data) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 572.0 Td (katalog produk PostgreSQL untuk memberikan rekomendasi skincare OTC yang relevan secara personal.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 556.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 556.0 Td (Streaming Protocol: Menggunakan Server-Sent Events \(SSE\) pada endpoint /ai/chat/stream dan) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 543.0 Td (/api/chatbot/stream untuk interaksi instan real-time.) Tj ET Q
+q 1.00 0.98 0.92 rg 0.90 0.90 0.95 RG 0.5 w 45.0 461.0 505.0 76.0 re B Q
+q 0.96 0.62 0.04 rg 45.0 461.0 4.0 76.0 re f Q
+q 0.96 0.62 0.04 rg BT /F2 9.5 Tf 60.0 522.0 Td (4.3 Ethical AI & Medical Safety Guardrails \(Strict Non-Diagnosis\)) Tj ET Q
+q 0.25 0.30 0.40 rg BT /F1 9 Tf 60.0 508.0 Td (SkinCheck mengutamakan etika dan keselamatan pengguna. Sistem secara ketat melarang pemberian) Tj ET Q
+q 0.25 0.30 0.40 rg BT /F1 9 Tf 60.0 495.5 Td (diagnosis medis atau resep obat keras. Jika terdeteksi keluhan penyakit kulit berisiko tinggi atau) Tj ET Q
+q 0.25 0.30 0.40 rg BT /F1 9 Tf 60.0 483.0 Td (kondisi darurat, modul SafetyLayer langsung memotong alur dan memberikan instruksi eskalasi untuk) Tj ET Q
+q 0.25 0.30 0.40 rg BT /F1 9 Tf 60.0 470.5 Td (berkonsultasi ke Dokter Spesialis Kulit \(Sp.KK / Sp.D.V.E\).) Tj ET Q
+q 0.50 0.55 0.65 rg BT /F1 8 Tf 470.0 25.0 Td (Halaman 4 dari 5) Tj ET Q
+endstream
+endobj
+7 0 obj
+<< /Length 3569 >>
+stream
+q 0.50 0.55 0.65 rg BT /F1 8 Tf 45.0 810.0 Td (Dokumen PRD & SRS - SkinCheck Web Platform \(Tahap 1\)) Tj ET Q
+q 0.88 0.90 0.94 RG 0.5 w 45.0 806.0 m 550.0 806.0 l S Q
+q 0.30 0.11 0.58 rg BT /F2 15 Tf 45.0 781.0 Td (5. Kebutuhan Non-Fungsional \(NFR\)) Tj ET Q
+q 0.93 0.91 0.99 rg 45.0 777.0 505.0 1.5 re f Q
+q 0.95 0.96 0.98 rg 0.80 0.84 0.88 RG 0.5 w 45.0 740.0 505.0 22.0 re B Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 51.0 750.0 Td (Kategori NFR) Tj ET Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 136.0 750.0 Td (Deskripsi Kebutuhan) Tj ET Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 311.0 750.0 Td (Spesifikasi & Standar Pengujian) Tj ET Q
+q 1.00 1.00 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 718.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 728.0 Td (Performance) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 136.0 728.0 Td (Waktu respon AI & scan) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 311.0 728.0 Td (TTFT streaming AI < 1.5 detik; scan citra < 3 detik; rate-limit 10 req/menit.) Tj ET Q
+q 0.98 0.99 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 696.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 706.0 Td (Security) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 136.0 706.0 Td (Keamanan akun & data) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 311.0 706.0 Td (Enkripsi bcrypt, JWT HttpOnly Cookie, header XSS/Frame guard.) Tj ET Q
+q 1.00 1.00 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 674.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 684.0 Td (Availability) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 136.0 684.0 Td (Keandalan sistem AI) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 311.0 684.0 Td (Fallback provider otomatis jika kuota API utama habis; graceful failover.) Tj ET Q
+q 0.98 0.99 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 652.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 662.0 Td (Usability) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 136.0 662.0 Td (Responsif & User Experience) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 311.0 662.0 Td (Desain responsif mobile-first, Dark & Light Mode toggle, UI intuitif.) Tj ET Q
+q 1.00 1.00 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 630.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 640.0 Td (Compliance) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 136.0 640.0 Td (Etika & Legalitas) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 311.0 640.0 Td (Disclaimer non-medis di setiap laporan; foto scan terenkripsi/terisolasi.) Tj ET Q
+q 0.30 0.11 0.58 rg BT /F2 15 Tf 45.0 601.0 Td (6. Roadmap Pengembangan & Deliverables Tahap 1) Tj ET Q
+q 0.93 0.91 0.99 rg 45.0 597.0 505.0 1.5 re f Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 583.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 583.0 Td (Tahap 1 \(Saat Ini\): Inisiasi, Penyusunan Dokumen PRD/SRS Mandiri, Arsitektur AI, dan Video) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 570.0 Td (Presentasi Progres 1.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 554.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 554.0 Td (Tahap 2: Pengembangan UI EJS responsif, autentikasi sesi JWT, dan dasbor analitik admin &) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 541.0 Td (customer.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 525.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 525.0 Td (Tahap 3: Finalisasi pipeline Computer Vision Heatmap Sunscreen dan integrasi Fonnte WhatsApp OTP.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 509.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 509.0 Td (Tahap 4: Pengujian UAT, optimasi latensi streaming LLM, dan peluncuran versi produksi.) Tj ET Q
+q 0.50 0.55 0.65 rg BT /F1 8 Tf 470.0 25.0 Td (Halaman 5 dari 5) Tj ET Q
+endstream
+endobj
+8 0 obj
+<< /Type /Pages /Kids [ 10 0 R 11 0 R 12 0 R 13 0 R 14 0 R ] /Count 5 >>
+endobj
+9 0 obj
+<< /Type /Catalog /Pages 8 0 R >>
+endobj
+10 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 595 842] /Contents 3 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> >>
+endobj
+11 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> >>
+endobj
+12 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 595 842] /Contents 5 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> >>
+endobj
+13 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 595 842] /Contents 6 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> >>
+endobj
+14 0 obj
+<< /Type /Page /Parent 8 0 R /MediaBox [0 0 595 842] /Contents 7 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> >>
+endobj
+xref
+0 15
+0000000000 65535 f 
+0000000009 00000 n 
+0000000106 00000 n 
+0000000208 00000 n 
+0000001848 00000 n 
+0000006037 00000 n 
+0000010774 00000 n 
+0000014318 00000 n 
+0000017939 00000 n 
+0000018027 00000 n 
+0000018076 00000 n 
+0000018213 00000 n 
+0000018350 00000 n 
+0000018487 00000 n 
+0000018624 00000 n 
+trailer
+<< /Size 15 /Root 9 0 R >>
+startxref
+18761
+%%EOF

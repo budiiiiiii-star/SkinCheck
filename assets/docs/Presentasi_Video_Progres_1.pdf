@@ -1,0 +1,166 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+3 0 obj
+<< /Length 1476 >>
+stream
+q 0.93 0.91 0.99 rg 45.0 600.0 260.0 24.0 re f Q
+q 0.43 0.16 0.85 rg BT /F2 8.5 Tf 57.0 608.0 Td (LUARAN VIDEO PROGRES 1 \(DURASI 3 - 5 MENIT\)) Tj ET Q
+q 0.30 0.11 0.58 rg BT /F2 23 Tf 45.0 575.0 Td (SkinCheck: Video Progres 1) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 14.5 Tf 45.0 548.0 Td (Slide Deck & Naskah Narasi Presentasi Tahap 1) Tj ET Q
+q 0.45 0.52 0.63 rg BT /F1 10 Tf 45.0 520.0 Td (Dokumen Panduan Perekaman Video, Struktur Slide, Rundown Waktu, dan Script Narasi) Tj ET Q
+q 0.98 0.98 0.99 rg 0.88 0.90 0.94 RG 1 w 45.0 355.0 505.0 125.0 re B Q
+q 0.30 0.35 0.45 rg BT /F2 9 Tf 60.0 460.0 Td (Target Durasi Video) Tj ET Q
+q 0.15 0.20 0.28 rg BT /F1 9 Tf 195.0 460.0 Td (: 3 Menit 30 Detik s.d. 4 Menit 15 Detik \(Ideal 3-5 Menit\)) Tj ET Q
+q 0.30 0.35 0.45 rg BT /F2 9 Tf 60.0 442.0 Td (Format Luaran Rekaman) Tj ET Q
+q 0.15 0.20 0.28 rg BT /F1 9 Tf 195.0 442.0 Td (: Video MP4 \(1080p Full HD, 60 FPS, Audio Jernih\)) Tj ET Q
+q 0.30 0.35 0.45 rg BT /F2 9 Tf 60.0 424.0 Td (Metode Presentasi) Tj ET Q
+q 0.15 0.20 0.28 rg BT /F1 9 Tf 195.0 424.0 Td (: Slide Pitching + Screencast Antarmuka Web SkinCheck) Tj ET Q
+q 0.30 0.35 0.45 rg BT /F2 9 Tf 60.0 406.0 Td (Alat Rekam Disarankan) Tj ET Q
+q 0.15 0.20 0.28 rg BT /F1 9 Tf 195.0 406.0 Td (: OBS Studio / Loom / PowerPoint Record) Tj ET Q
+q 0.30 0.35 0.45 rg BT /F2 9 Tf 60.0 388.0 Td (Tahap Penilaian) Tj ET Q
+q 0.15 0.20 0.28 rg BT /F1 9 Tf 195.0 388.0 Td (: Tahap 1 \(Inisiasi & Spesifikasi Kebutuhan Proyek\)) Tj ET Q
+endstream
+endobj
+4 0 obj
+<< /Length 5426 >>
+stream
+q 0.50 0.55 0.65 rg BT /F1 8 Tf 45.0 810.0 Td (Presentasi Video Progres 1 - SkinCheck Web Platform) Tj ET Q
+q 0.88 0.90 0.94 RG 0.5 w 45.0 806.0 m 550.0 806.0 l S Q
+q 0.30 0.11 0.58 rg BT /F2 15 Tf 45.0 781.0 Td (1. Struktur Rundown Video \(Menit demi Menit\)) Tj ET Q
+q 0.93 0.91 0.99 rg 45.0 777.0 505.0 1.5 re f Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 763.0 Td (Rundown disusun presisi untuk memastikan durasi berada dalam rentang wajib 3 hingga 5 menit:) Tj ET Q
+q 0.95 0.96 0.98 rg 0.80 0.84 0.88 RG 0.5 w 45.0 723.0 505.0 22.0 re B Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 51.0 733.0 Td (Waktu) Tj ET Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 116.0 733.0 Td (Bagian Presentasi) Tj ET Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 236.0 733.0 Td (Fokus Konten) Tj ET Q
+q 0.20 0.25 0.35 rg BT /F2 8.5 Tf 396.0 733.0 Td (Visual di Layar \(Visual Cue\)) Tj ET Q
+q 1.00 1.00 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 701.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 711.0 Td (00:00 - 00:45) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 116.0 711.0 Td (Pembukaan & Latar Belakang) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 236.0 711.0 Td (Salam, perkenalan tim, judul proyek, problem statement kesehatan kulit.) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 396.0 711.0 Td (Slide 1 \(Cover\) & Slide 2 \(Masalah\)) Tj ET Q
+q 0.98 0.99 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 679.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 689.0 Td (00:45 - 01:45) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 116.0 689.0 Td (Ruang Lingkup & User Stories) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 236.0 689.0 Td (Penjelasan 3 aktor \(Guest, Customer, Admin\) & acceptance criteria.) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 396.0 689.0 Td (Slide 3 + Tampilan Beranda Web) Tj ET Q
+q 1.00 1.00 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 657.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 667.0 Td (01:45 - 03:00) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 116.0 667.0 Td (Spesifikasi Fitur AI) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 236.0 667.0 Td (Computer Vision, Sunscreen Heatmap, Multi-LLM, RAG & Safety Guardrail.) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 396.0 667.0 Td (Slide 4 & 5 + Tampilan UI Scan/Chat) Tj ET Q
+q 0.98 0.99 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 635.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 645.0 Td (03:00 - 03:50) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 116.0 645.0 Td (NFR, Keamanan & WhatsApp) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 236.0 645.0 Td (Standar latensi streaming, keamanan data bcrypt/JWT, Fonnte WA OTP.) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 396.0 645.0 Td (Slide 6 \(Tabel NFR & Keamanan\)) Tj ET Q
+q 1.00 1.00 1.00 rg 0.85 0.88 0.92 RG 0.5 w 45.0 613.0 505.0 22.0 re B Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 51.0 623.0 Td (03:50 - 04:20) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 116.0 623.0 Td (Roadmap & Penutup) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 236.0 623.0 Td (Milestone tahap 2-4, kesimpulan kesiapan PRD, salam penutup.) Tj ET Q
+q 0.25 0.30 0.38 rg BT /F1 8 Tf 396.0 623.0 Td (Slide 7 \(Roadmap Milestone Selesai\)) Tj ET Q
+q 0.30 0.11 0.58 rg BT /F2 15 Tf 45.0 584.0 Td (2. Konten Slide Presentasi \(7 Slide Utama\)) Tj ET Q
+q 0.93 0.91 0.99 rg 45.0 580.0 505.0 1.5 re f Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 566.0 Td (Gunakan 7 slide berikut saat menyiapkan deck presentasi di Canva atau PowerPoint:) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 549.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 549.0 Td (Slide 1 \(Cover\): Judul: SkinCheck \(AI Skin Health & Skincare Assistant\). Sub-judul: Presentasi) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 536.0 Td (Progres 1.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 520.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 520.0 Td (Slide 2 \(Problem\): Asimetri informasi skincare, ketidaktahuan pemerataan sunscreen, biaya) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 507.0 Td (konsultasi klinis.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 491.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 491.0 Td (Slide 3 \(User Stories\): Aktor sistem \(Guest, Customer, Admin\) dan 9 user stories berstandar) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 478.0 Td (industri.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 462.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 462.0 Td (Slide 4 \(Vision AI\): Analisis 4 skor visual kulit dan deteksi pemerataan tabir surya via Heatmap) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 449.0 Td (visual.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 433.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 433.0 Td (Slide 5 \(LLM & Safety\): Multi-provider AI \(NVIDIA, Gemini, OpenAI, Claude, Groq, Ollama\), RAG) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 420.0 Td (produk, Safety Layer.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 404.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 404.0 Td (Slide 6 \(NFR & Security\): Streaming latency < 1.5 detik, rate limiting 10 req/menit, bcrypt, JWT,) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 391.0 Td (Fonnte WhatsApp.) Tj ET Q
+q 0.49 0.23 0.93 rg BT /F2 10 Tf 48.0 375.0 Td (-) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 375.0 Td (Slide 7 \(Roadmap\): Tahap 1 selesai \(PRD PDF & Video\), rencana Tahap 2 UI/UX, Tahap 3 AI Pipeline,) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 61.0 362.0 Td (Tahap 4 UAT.) Tj ET Q
+q 0.50 0.55 0.65 rg BT /F1 8 Tf 470.0 25.0 Td (Halaman 2 dari 3) Tj ET Q
+endstream
+endobj
+5 0 obj
+<< /Length 4599 >>
+stream
+q 0.50 0.55 0.65 rg BT /F1 8 Tf 45.0 810.0 Td (Presentasi Video Progres 1 - SkinCheck Web Platform) Tj ET Q
+q 0.88 0.90 0.94 RG 0.5 w 45.0 806.0 m 550.0 806.0 l S Q
+q 0.30 0.11 0.58 rg BT /F2 15 Tf 45.0 781.0 Td (3. Naskah Bicara Verbatim Presenter \(Teks Lengkap\)) Tj ET Q
+q 0.93 0.91 0.99 rg 45.0 777.0 505.0 1.5 re f Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 763.0 Td (Presenter dapat langsung membaca naskah kata-demi-kata ini saat merekam video:) Tj ET Q
+q 0.42 0.13 0.66 rg BT /F2 12 Tf 45.0 734.0 Td (Menit 00:00 - 00:45 | Pembukaan & Latar Belakang) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 720.0 Td ("Halo, selamat pagi/siang rekan-rekan dan bapak/ibu penguji. Saya [Nama Anda], perwakilan tim) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 707.0 Td (pengembang SkinCheck: AI-Powered Skin Health Monitoring & Skincare Assistant. Pada kesempatan ini,) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 694.0 Td (saya mempresentasikan laporan Progres 1, yaitu Inisiasi dan Penyusunan Dokumen PRD Mandiri.") Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 677.0 Td ("Proyek ini berawal dari tingginya antusiasme masyarakat Indonesia terhadap skincare, namun diiringi) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 664.0 Td (masalah trial-and-error akibat minimnya edukasi. Selain itu, banyak pengguna tabir surya tidak) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 651.0 Td (mengetahui apakah perlindungannya sudah merata. SkinCheck hadir sebagai solusi web cerdas untuk) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 638.0 Td (memantau kesehatan kulit dan sunscreen dengan kecerdasan buatan.") Tj ET Q
+q 0.42 0.13 0.66 rg BT /F2 12 Tf 45.0 609.0 Td (Menit 00:45 - 01:45 | Ruang Lingkup & User Stories) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 595.0 Td ("Dalam dokumen PRD yang telah kami susun, SkinCheck melayani tiga tipe pengguna: Guest untuk) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 582.0 Td (pengunjung publik, Customer untuk pengguna terdaftar yang memindai kulit dan berkonsultasi AI, serta) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 569.0 Td (Administrator untuk pengawasan analitik dan katalog produk. Kami telah merumuskan 9 User Stories) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 556.0 Td (lengkap dengan kriteria penerimaan terukur.") Tj ET Q
+q 0.42 0.13 0.66 rg BT /F2 12 Tf 45.0 527.0 Td (Menit 01:45 - 03:00 | Spesifikasi Fitur Kecerdasan Buatan) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 513.0 Td ("Inti keunggulan SkinCheck terletak pada arsitektur AI hibrida. Pertama, Computer Vision untuk) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 500.0 Td (analisis visual jerawat, kemerahan, tekstur, dan hiperpigmentasi. Kedua, Sunscreen Coverage & Heatmap) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 487.0 Td (Generator yang memetakan area wajah terlindungi secara visual. Ketiga, Asisten Chatbot Multi-Provider) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 474.0 Td (yang mendukung NVIDIA NIM, Google Gemini, OpenAI, Claude, Groq, hingga Ollama lokal dengan RAG produk) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 461.0 Td (skincare.") Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 444.0 Td ("Sistem kami juga menerapkan Safety Layer ketat: SkinCheck secara tegas menolak diagnosis medis dan) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 431.0 Td (mengarahkan kondisi darurat ke dokter spesialis kulit.") Tj ET Q
+q 0.42 0.13 0.66 rg BT /F2 12 Tf 45.0 402.0 Td (Menit 03:00 - 03:50 | Kebutuhan Non-Fungsional & Keamanan) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 388.0 Td ("Untuk memastikan keandalan, kami menetapkan NFR berstandar tinggi: latensi streaming AI di bawah 1.5) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 375.0 Td (detik, enkripsi kata sandi dengan bcrypt, autentikasi sesi JWT pada HttpOnly Cookie, pembatasan rate) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 362.0 Td (limit 10 request per menit, serta integrasi Fonnte API untuk verifikasi nomor WhatsApp dan OTP.") Tj ET Q
+q 0.42 0.13 0.66 rg BT /F2 12 Tf 45.0 333.0 Td (Menit 03:50 - 04:20 | Kesimpulan & Penutup) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 319.0 Td ("Sebagai kesimpulan, Tahap 1 telah selesai 100% dengan tersusunnya Dokumen PRD standar dalam format) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 306.0 Td (PDF dan kesiapan arsitektur sistem untuk dilanjutkan ke tahap implementasi UI/UX dan integrasi AI) Tj ET Q
+q 0.20 0.25 0.33 rg BT /F1 9.5 Tf 45.0 293.0 Td (pipeline. Terima kasih atas perhatian bapak/ibu dan rekan-rekan semua. Salam sehat!") Tj ET Q
+q 0.50 0.55 0.65 rg BT /F1 8 Tf 470.0 25.0 Td (Halaman 3 dari 3) Tj ET Q
+endstream
+endobj
+6 0 obj
+<< /Type /Pages /Kids [ 8 0 R 9 0 R 10 0 R ] /Count 3 >>
+endobj
+7 0 obj
+<< /Type /Catalog /Pages 6 0 R >>
+endobj
+8 0 obj
+<< /Type /Page /Parent 6 0 R /MediaBox [0 0 595 842] /Contents 3 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> >>
+endobj
+9 0 obj
+<< /Type /Page /Parent 6 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> >>
+endobj
+10 0 obj
+<< /Type /Page /Parent 6 0 R /MediaBox [0 0 595 842] /Contents 5 0 R /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> >>
+endobj
+xref
+0 11
+0000000000 65535 f 
+0000000009 00000 n 
+0000000106 00000 n 
+0000000208 00000 n 
+0000001736 00000 n 
+0000007214 00000 n 
+0000011865 00000 n 
+0000011937 00000 n 
+0000011986 00000 n 
+0000012122 00000 n 
+0000012258 00000 n 
+trailer
+<< /Size 11 /Root 7 0 R >>
+startxref
+12395
+%%EOF

@@ -1,0 +1,113 @@
+<!-- Sunscreen Result Page -->
+<div class="slide-up">
+
+    <!-- Disclaimer -->
+    <div class="alert alert-secondary mb-4">
+        <h6 style="font-weight:700;margin-bottom:6px;"><i class="fa-solid fa-microscope me-2"></i>Batasan Ilmiah (Disclaimer)</h6>
+        <p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">
+            Hasil berikut ini merupakan <strong>estimasi visual coverage sunscreen berbasis AI</strong>. Kamera RGB standar <strong>tidak dapat melakukan pengukuran UV secara langsung</strong>.
+            Persentase di bawah ini <strong>bukan persentase perlindungan UV</strong> yang sebenarnya, melainkan estimasi kemerataan dari apa yang dapat dilihat oleh algoritma secara visual.
+        </p>
+    </div>
+
+    <!-- Main Card -->
+    <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-md);">
+
+        <!-- Card Header -->
+        <div style="background:linear-gradient(135deg,#06b6d4,#0284c7);padding:22px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+            <div>
+                <h2 style="font-weight:800;color:white;margin-bottom:4px;font-size:1.25rem;">
+                    <i class="fa-solid fa-sun me-2"></i>Sunscreen Coverage Check
+                </h2>
+                <p style="margin:0;font-size:0.8rem;color:rgba(255,255,255,0.8);">
+                    Tanggal: <%= new Date(scan.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute:'2-digit' }) %>
+                </p>
+            </div>
+            <div style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:14px;padding:10px 18px;text-align:center;">
+                <div style="font-size:0.7rem;color:rgba(255,255,255,0.8);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;">Status</div>
+                <div style="font-size:1.2rem;font-weight:800;color:white;"><%= result.coverage_status %></div>
+            </div>
+        </div>
+
+        <!-- Card Body -->
+        <div style="padding:28px;">
+            <div class="row g-5">
+
+                <!-- Left: Heatmap Image -->
+                <div class="col-md-6 text-center">
+                    <h6 style="font-weight:600;color:var(--text-muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px;">Estimasi Visual (Heatmap)</h6>
+                    <div style="position:relative;display:inline-block;border-radius:16px;overflow:hidden;border:2px solid var(--border-color);box-shadow:var(--shadow-sm);background:#000;">
+                        <img src="/scan/image/<%= scan.id %>" alt="Face Scan" style="width:100%;display:block;object-fit:cover;">
+                        <!-- Heatmap overlay -->
+                        <div style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;background:<%= result.coverage_score < 70 ? 'radial-gradient(circle at 50% 50%, rgba(255,0,0,0.3) 0%, transparent 60%)' : 'rgba(0,100,255,0.08)' %>;mix-blend-mode:multiply;"></div>
+                        <div style="position:absolute;bottom:0;left:0;right:0;padding:10px 14px;background:linear-gradient(transparent,rgba(0,0,0,0.75));color:white;font-size:0.75rem;">
+                            <i class="fa-solid fa-layer-group me-1"></i>Visualisasi Estimasi: <%= result.hardware_type %>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Results -->
+                <div class="col-md-6">
+                    <!-- Score Display -->
+                    <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:6px;">
+                        <span style="font-size:3.5rem;font-weight:800;color:#06b6d4;line-height:1;"><%= result.coverage_score %>%</span>
+                    </div>
+                    <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:24px;">Estimasi Kemerataan Coverage</p>
+
+                    <!-- Coverage Progress Bar -->
+                    <div style="margin-bottom:24px;">
+                        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:0.8rem;">
+                            <span style="color:var(--text-secondary);font-weight:600;">Coverage Visual</span>
+                            <span style="color:#06b6d4;font-weight:700;"><%= result.coverage_score %>%</span>
+                        </div>
+                        <div class="progress" style="height:12px;">
+                            <div class="progress-bar bg-info" style="width:<%= result.coverage_score %>%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Low Coverage Alert -->
+                    <% if (result.low_coverage_areas && result.low_coverage_areas.length > 0) { %>
+                        <div class="alert alert-warning mb-4">
+                            <h6 style="font-weight:700;margin-bottom:8px;"><i class="fa-solid fa-triangle-exclamation me-1"></i>Area Kurang Merata</h6>
+                            <p style="margin:0;font-size:0.8rem;">
+                                Area seperti <strong><%= result.low_coverage_areas.join(', ') %></strong> menunjukkan indikasi coverage visual lebih rendah.
+                                Pastikan Anda mengaplikasikan ulang sunscreen di area tersebut.
+                            </p>
+                        </div>
+                    <% } else { %>
+                        <div class="alert alert-success mb-4">
+                            <h6 style="font-weight:700;margin-bottom:8px;"><i class="fa-solid fa-check-circle me-1"></i>Bagus!</h6>
+                            <p style="margin:0;font-size:0.8rem;">
+                                Estimasi visual menunjukkan aplikasi sunscreen Anda tampak merata di seluruh area wajah.
+                            </p>
+                        </div>
+                    <% } %>
+
+                    <!-- Tips -->
+                    <div style="background:var(--bg-surface-2);border:1px solid var(--border-color);border-radius:14px;padding:16px;">
+                        <div style="font-size:0.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">
+                            <i class="fa-solid fa-lightbulb me-1" style="color:#f59e0b;"></i>Tips Sunscreen
+                        </div>
+                        <ul style="margin:0;padding-left:16px;font-size:0.8rem;color:var(--text-secondary);line-height:1.8;">
+                            <li>Aplikasikan sunscreen 15–30 menit sebelum beraktivitas.</li>
+                            <li>Gunakan aturan 2 jari untuk wajah dan leher.</li>
+                            <li>Re-apply setiap 2–3 jam sekali, terutama jika berkeringat.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                <a href="/customer/dashboard" class="btn btn-secondary btn-lg" id="sunscreen-back-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali ke Dashboard
+                </a>
+                <a href="/sunscreen/scan" class="btn btn-info btn-lg" id="sunscreen-rescan-btn">
+                    <i class="fa-solid fa-rotate-right"></i> Scan Ulang
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>

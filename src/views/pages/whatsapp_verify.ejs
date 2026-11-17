@@ -1,0 +1,232 @@
+﻿<!-- whatsapp_verify.ejs -->
+<div class="<%= (typeof user !== "undefined" && user) ? "" : "container py-4" %>" style="<%= (typeof user !== "undefined" && user) ? "" : "max-width: 960px; margin: 0 auto;" %>">
+
+<% if (typeof user === "undefined" || !user) { %>
+    <!-- Top guest header bar -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+        <a href="/" class="text-decoration-none d-flex align-items-center gap-2">
+            <span class="d-inline-flex align-items-center justify-content-center" style="width:38px;height:38px;border-radius:10px;background:#7c3aed;color:#fff;">
+                <i class="fa-solid fa-leaf"></i>
+            </span>
+            <span class="fw-bold fs-5" style="color:var(--text-main, #0f172a);">SkinCheck</span>
+        </a>
+        <div class="d-flex align-items-center gap-2">
+            <a href="/login" class="btn btn-sm btn-outline-secondary">Masuk</a>
+            <a href="/register" class="btn btn-sm btn-primary" style="background:#7c3aed;border-color:#7c3aed;">Daftar Akun</a>
+        </div>
+    </div>
+<% } %>
+
+<div class="page-header mb-4">
+    <h2 class="page-title d-flex align-items-center gap-2">
+        <i class="fa-brands fa-whatsapp text-success"></i>
+        <span>Cek Nomor WhatsApp</span>
+    </h2>
+    <p class="text-muted">Verifikasi apakah nomor telepon terdaftar di WhatsApp secara real-time menggunakan Fonnte API.</p>
+</div>
+
+<% if (!isConfigured) { %>
+<div class="alert alert-warning d-flex align-items-center mb-4" role="alert">
+    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+    <div>Fonnte API belum dikonfigurasi. Hubungi administrator untuk mengatur <code>FONNTE_API_KEY</code>.</div>
+</div>
+<% } %>
+
+<div class="row g-4">
+    <!-- Input Card -->
+    <div class="col-lg-7">
+        <div class="card shadow-sm border-0 h-100" style="border-radius:16px;">
+            <div class="card-body p-4">
+                <h5 class="card-title fw-semibold mb-4 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-magnifying-glass text-primary"></i>
+                    <span>Verifikasi Nomor</span>
+                </h5>
+                <form id="wa-verify-form">
+                    <div class="mb-3">
+                        <label for="phoneNumber" class="form-label fw-medium">Nomor Telepon</label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-light"><i class="fa-solid fa-phone"></i></span>
+                            <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber"
+                                   placeholder="08123456789 atau +6281234567890"
+                                   autocomplete="tel" required>
+                        </div>
+                        <div class="form-text mt-1 text-muted">Mendukung format Indonesia: 08xxx, 628xxx, +628xxx</div>
+                        <div class="invalid-feedback" id="phone-error"></div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-lg w-100 shadow-sm" id="verify-btn" <%= !isConfigured ? 'disabled' : '' %> style="background:#25d366;border-color:#25d366;font-weight:600;">
+                        <span id="btn-text"><i class="fa-brands fa-whatsapp me-2"></i>Verifikasi Nomor WhatsApp</span>
+                        <span id="btn-loading" class="d-none">
+                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>Memverifikasi...
+                        </span>
+                    </button>
+                </form>
+
+                <!-- Result Card (inline) -->
+                <div id="result-container" class="mt-4 d-none">
+                    <div id="result-card" class="result-card p-4 rounded-3 border">
+                        <div class="d-flex align-items-center mb-3">
+                            <div id="result-icon" class="result-icon me-3"></div>
+                            <div>
+                                <div id="result-status" class="fw-bold fs-5"></div>
+                                <div id="result-message" class="text-muted small"></div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row g-2 small">
+                            <div class="col-6">
+                                <div class="text-muted">Nomor Input</div>
+                                <div id="result-input" class="fw-medium font-monospace"></div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-muted">Nomor Standar (+62)</div>
+                                <div id="result-norm" class="fw-medium font-monospace"></div>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <div class="text-muted">Waktu Pengecekan</div>
+                                <div id="result-time" class="fw-medium"></div>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary mt-3 w-100" id="clear-btn">
+                            <i class="fa-solid fa-rotate me-1"></i>Cek Nomor Lain
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info & Shortcut Card -->
+    <div class="col-lg-5">
+        <div class="card shadow-sm border-0 mb-4" style="border-radius:16px;">
+            <div class="card-body p-4">
+                <h5 class="card-title fw-semibold mb-3 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-primary"></i>
+                    <span>Informasi Sistem</span>
+                </h5>
+                <ul class="list-unstyled small text-muted mb-0">
+                    <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>Mengecek status akun WhatsApp nomor Indonesia</li>
+                    <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>Format otomatis dinormalisasi ke <code>628xxx</code></li>
+                    <li class="mb-2"><i class="fa-solid fa-clock text-info me-2"></i>Riwayat otomatis dicatat untuk pengguna</li>
+                    <li class="mb-2"><i class="fa-solid fa-shield-halved text-warning me-2"></i>Rate limit 10 pengecekan per menit</li>
+                    <li class="mb-0"><i class="fa-solid fa-lock text-secondary me-2"></i>Didukung oleh Fonnte WhatsApp API</li>
+                </ul>
+            </div>
+        </div>
+        
+        <% if (typeof user !== "undefined" && user) { %>
+        <div class="card shadow-sm border-0" style="border-radius:16px;">
+            <div class="card-body p-4 text-center">
+                <i class="fa-solid fa-clock-rotate-left fa-2x text-secondary mb-3"></i>
+                <p class="text-muted mb-3">Lihat semua riwayat pengecekan Anda</p>
+                <a href="/whatsapp/history" class="btn btn-outline-primary w-100">
+                    <i class="fa-solid fa-list me-2"></i>Lihat Riwayat
+                </a>
+            </div>
+        </div>
+        <% } else { %>
+        <div class="card shadow-sm border-0" style="border-radius:16px;background:linear-gradient(135deg, rgba(124,58,237,0.06), rgba(37,211,102,0.06));">
+            <div class="card-body p-4 text-center">
+                <h6 class="fw-bold mb-2">Ingin Mendaftar ke SkinCheck?</h6>
+                <p class="text-muted small mb-3">Buat akun untuk analisa kesehatan kulit bertenaga AI dan tracking rutin.</p>
+                <a href="/register" class="btn btn-primary w-100" style="background:#7c3aed;border-color:#7c3aed;">
+                    <i class="fa-solid fa-user-plus me-2"></i>Daftar Sekarang
+                </a>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+
+</div>
+
+<style>
+.result-card.status-registered    { background: #f0fdf4; border-color: #86efac !important; }
+.result-card.status-not_registered{ background: #fef2f2; border-color: #fca5a5 !important; }
+.result-card.status-verification_failed{ background: #fefce8; border-color: #fde047 !important; }
+.result-card.status-invalid_number{ background: #fef2f2; border-color: #f87171 !important; }
+.result-card.status-unknown       { background: #f8fafc; border-color: #cbd5e1 !important; }
+</style>
+
+<script>
+(function() {
+    const form    = document.getElementById('wa-verify-form');
+    const btnText = document.getElementById('btn-text');
+    const btnLoad = document.getElementById('btn-loading');
+    const verBtn  = document.getElementById('verify-btn');
+    const resBox  = document.getElementById('result-container');
+    const resCard = document.getElementById('result-card');
+    const clearBtn= document.getElementById('clear-btn');
+
+    const STATUS_ICONS = {
+        registered:          '<i class="fa-brands fa-whatsapp fa-2x text-success"></i>',
+        not_registered:      '<i class="fa-solid fa-circle-xmark fa-2x text-danger"></i>',
+        invalid_number:      '<i class="fa-solid fa-triangle-exclamation fa-2x text-warning"></i>',
+        verification_failed: '<i class="fa-solid fa-circle-exclamation fa-2x text-warning"></i>',
+        unknown:             '<i class="fa-solid fa-circle-question fa-2x text-secondary"></i>',
+    };
+
+    const STATUS_LABELS = {
+        registered:          'Terdaftar di WhatsApp',
+        not_registered:      'Tidak Terdaftar di WhatsApp',
+        invalid_number:      'Nomor Tidak Valid',
+        verification_failed: 'Verifikasi Gagal / Terkendala',
+        unknown:             'Status Tidak Diketahui',
+    };
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const phoneInput = document.getElementById('phoneNumber');
+        const phoneNumber = phoneInput.value.trim();
+
+        if (!phoneNumber) {
+            phoneInput.classList.add('is-invalid');
+            document.getElementById('phone-error').textContent = 'Masukkan nomor telepon terlebih dahulu.';
+            return;
+        }
+        phoneInput.classList.remove('is-invalid');
+
+        verBtn.disabled = true;
+        btnText.classList.add('d-none');
+        btnLoad.classList.remove('d-none');
+        resBox.classList.add('d-none');
+
+        try {
+            const resp = await fetch('/api/whatsapp/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phoneNumber }),
+            });
+            const data = await resp.json();
+
+            if (!resp.ok && !data.success) {
+                showResult({ status: 'verification_failed', message: data.message, phoneNumber, normalizedPhone: phoneNumber, checkedAt: new Date().toISOString() });
+                return;
+            }
+            showResult(data);
+        } catch (err) {
+            showResult({ status: 'verification_failed', message: 'Gagal terhubung ke server.', phoneNumber, normalizedPhone: '-', checkedAt: new Date().toISOString() });
+        } finally {
+            verBtn.disabled = false;
+            btnText.classList.remove('d-none');
+            btnLoad.classList.add('d-none');
+        }
+    });
+
+    function showResult(data) {
+        resCard.className = 'result-card p-4 rounded-3 border status-' + data.status;
+        document.getElementById('result-icon').innerHTML    = STATUS_ICONS[data.status] || STATUS_ICONS.unknown;
+        document.getElementById('result-status').textContent= STATUS_LABELS[data.status] || data.status;
+        document.getElementById('result-message').textContent= data.message || '';
+        document.getElementById('result-input').textContent = data.phoneNumber || '-';
+        document.getElementById('result-norm').textContent  = data.normalizedPhone || '-';
+        document.getElementById('result-time').textContent  = data.checkedAt ? new Date(data.checkedAt).toLocaleString('id-ID') : '-';
+        resBox.classList.remove('d-none');
+    }
+
+    clearBtn.addEventListener('click', () => {
+        resBox.classList.add('d-none');
+        document.getElementById('phoneNumber').value = '';
+        document.getElementById('phoneNumber').focus();
+    });
+})();
+</script>

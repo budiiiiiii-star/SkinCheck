@@ -1,0 +1,223 @@
+<div class="row w-100 justify-content-center mt-4 mb-5">
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden bg-white glass-effect">
+            <div class="card-header bg-info text-white p-4">
+                <h3 class="fw-bold mb-0"><i class="fa-solid fa-sun me-2"></i> Cek Sunscreen Evenness</h3>
+                <p class="mb-0 mt-1 small opacity-75">Visualisasi estimasi perlindungan sunscreen Anda.</p>
+            </div>
+            
+            <div class="card-body p-4 text-center position-relative">
+                
+                <!-- Sunscreen Instructions -->
+                <div id="permission-info" class="my-3">
+                    <div class="alert alert-warning text-start mb-4 shadow-sm border-warning border-opacity-25">
+                        <h6 class="fw-bold"><i class="fa-solid fa-list-check me-2"></i> Instruksi Penting</h6>
+                        <ol class="mb-0 small text-dark opacity-75">
+                            <li><strong>Aplikasikan sunscreen</strong> ke wajah Anda secara merata.</li>
+                            <li><strong>Tunggu sekitar 10-15 menit</strong> agar sunscreen meresap sesuai petunjuk produk.</li>
+                            <li>Pastikan wajah Anda berada di dalam frame saat kamera aktif.</li>
+                            <li>Pastikan pencahayaan ruangan cukup terang.</li>
+                        </ol>
+                    </div>
+
+                    <div class="alert alert-secondary text-start mb-4 shadow-sm border-0 small">
+                        <strong><i class="fa-solid fa-microscope me-2"></i> Batasan Ilmiah:</strong> Kamera RGB standar pada perangkat Anda <strong>TIDAK</strong> dapat melakukan pendeteksian sinar UV secara harfiah. Fitur ini menggunakan AI untuk menganalisis pantulan cahaya *(glare)* dan karakteristik visual krim sunscreen untuk <strong>mengestimasi</strong> pemerataan (coverage). Hasil ini bukanlah standar mutlak untuk mengukur tingkat perlindungan SPF.
+                    </div>
+
+                    <button id="start-camera-btn" class="btn btn-info btn-lg mt-2 text-white btn-glow">Saya Siap, Buka Kamera</button>
+                    <div id="camera-error" class="alert alert-danger mt-3 d-none"></div>
+                </div>
+
+                <!-- Live Camera View -->
+                <div id="camera-container" class="position-relative d-none" style="width: 100%; max-width: 500px; margin: 0 auto; border-radius: 16px; overflow: hidden; background: #000;">
+                    <video id="camera-video" class="w-100" autoplay playsinline style="transform: scaleX(-1);"></video>
+                    
+                    <!-- Framing Guide Overlay -->
+                    <div id="framing-guide" class="position-absolute top-0 start-0 w-100 h-100 pointer-events-none" style="display: flex; align-items: center; justify-content: center;">
+                        <!-- Dark overlay with face-shaped cutout using SVG -->
+                        <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <mask id="face-mask-sunscreen">
+                                    <rect width="100%" height="100%" fill="white"/>
+                                    <ellipse cx="50%" cy="50%" rx="38%" ry="46%" fill="black"/>
+                                </mask>
+                            </defs>
+                            <!-- Dark overlay outside the oval -->
+                            <rect width="100%" height="100%" fill="rgba(0,0,0,0.45)" mask="url(#face-mask-sunscreen)"/>
+                            <!-- Oval border stroke -->
+                            <ellipse cx="50%" cy="50%" rx="38%" ry="46%" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2.5"/>
+                        </svg>
+                    </div>
+                    
+                    <div id="live-guidance" class="position-absolute bottom-0 start-0 w-100 p-2 text-white bg-dark bg-opacity-75" style="font-size: 0.9rem;">
+                        Posisikan wajah Anda di dalam oval.
+                    </div>
+                </div>
+
+                <!-- Hidden Canvas for Capture -->
+                <canvas id="capture-canvas" class="d-none"></canvas>
+                
+                <!-- Captured Image Preview -->
+                <div id="preview-container" class="d-none mt-3">
+                    <img id="capture-preview" class="img-fluid rounded-4 shadow-sm" style="max-width: 500px; transform: scaleX(-1);">
+                    <div id="validation-message" class="alert mt-3 d-none"></div>
+                </div>
+
+                <!-- Actions -->
+                <div id="camera-actions" class="mt-4 d-none">
+                    <button id="capture-btn" class="btn btn-info text-white btn-lg rounded-pill px-5 btn-glow shadow-sm">
+                        <i class="fa-solid fa-camera"></i> Ambil Foto
+                    </button>
+                </div>
+                
+                <div id="preview-actions" class="mt-4 d-none gap-2 justify-content-center d-flex">
+                    <button id="retake-btn" class="btn btn-outline-secondary btn-lg rounded-pill px-4">Ulangi</button>
+                    <button id="upload-btn" class="btn btn-success btn-lg rounded-pill px-4 btn-glow">Cek Coverage</button>
+                </div>
+                
+                <!-- Loading state -->
+                <div id="loading-state" class="mt-4 d-none">
+                    <div class="spinner-border text-info" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2 text-muted">Menganalisis Kemerataan Sunscreen...</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const startCameraBtn = document.getElementById('start-camera-btn');
+    const permissionInfo = document.getElementById('permission-info');
+    const cameraError = document.getElementById('camera-error');
+    const cameraContainer = document.getElementById('camera-container');
+    const video = document.getElementById('camera-video');
+    const liveGuidance = document.getElementById('live-guidance');
+    
+    const captureBtn = document.getElementById('capture-btn');
+    const cameraActions = document.getElementById('camera-actions');
+    
+    const canvas = document.getElementById('capture-canvas');
+    const previewContainer = document.getElementById('preview-container');
+    const capturePreview = document.getElementById('capture-preview');
+    const previewActions = document.getElementById('preview-actions');
+    const validationMessage = document.getElementById('validation-message');
+    
+    const retakeBtn = document.getElementById('retake-btn');
+    const uploadBtn = document.getElementById('upload-btn');
+    const loadingState = document.getElementById('loading-state');
+    
+    let stream = null;
+    let base64Image = null;
+    let guidanceInterval;
+
+    function simulateGuidance() {
+        const tips = [
+            "Posisikan wajah Anda di dalam oval.",
+            "Pastikan pencahayaan cukup.",
+            "Jangan bergerak saat memotret."
+        ];
+        let i = 0;
+        guidanceInterval = setInterval(() => {
+            liveGuidance.textContent = tips[i % tips.length];
+            i++;
+        }, 3000);
+    }
+
+    startCameraBtn.addEventListener('click', async () => {
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } }, 
+                audio: false 
+            });
+            video.srcObject = stream;
+            
+            permissionInfo.classList.add('d-none');
+            cameraContainer.classList.remove('d-none');
+            cameraActions.classList.remove('d-none');
+            
+            simulateGuidance();
+        } catch (err) {
+            console.error('Camera error:', err);
+            cameraError.textContent = 'Gagal mengakses kamera: ' + err.message;
+            cameraError.classList.remove('d-none');
+        }
+    });
+    
+    function stopCamera() {
+        if (stream) stream.getTracks().forEach(track => track.stop());
+        clearInterval(guidanceInterval);
+    }
+
+    captureBtn.addEventListener('click', () => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        const context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        
+        base64Image = canvas.toDataURL('image/jpeg', 0.9);
+        capturePreview.src = base64Image;
+        
+        cameraContainer.classList.add('d-none');
+        cameraActions.classList.add('d-none');
+        
+        previewContainer.classList.remove('d-none');
+        previewActions.classList.remove('d-none');
+        validationMessage.classList.add('d-none');
+    });
+
+    retakeBtn.addEventListener('click', () => {
+        base64Image = null;
+        previewContainer.classList.add('d-none');
+        previewActions.classList.add('d-none');
+        
+        cameraContainer.classList.remove('d-none');
+        cameraActions.classList.remove('d-none');
+    });
+
+    uploadBtn.addEventListener('click', async () => {
+        if (!base64Image) return;
+        
+        previewActions.classList.add('d-none');
+        loadingState.classList.remove('d-none');
+        validationMessage.classList.add('d-none');
+        
+        try {
+            const response = await fetch('/sunscreen/upload', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ imageBase64: base64Image })
+            });
+            
+            const resData = await response.json();
+            
+            loadingState.classList.add('d-none');
+            validationMessage.classList.remove('d-none');
+            
+            if (resData.success) {
+                validationMessage.className = 'alert alert-success mt-3';
+                validationMessage.innerHTML = `<i class="fa-solid fa-check-circle"></i> Berhasil disimpan. Menganalisis...`;
+                stopCamera();
+                
+                setTimeout(() => {
+                    window.location.href = '/sunscreen/result/' + resData.scanId;
+                }, 1500);
+            } else {
+                validationMessage.className = 'alert alert-danger mt-3';
+                validationMessage.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${resData.message}`;
+                previewActions.classList.remove('d-none');
+            }
+        } catch (err) {
+            loadingState.classList.add('d-none');
+            validationMessage.className = 'alert alert-danger mt-3';
+            validationMessage.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Terjadi kesalahan jaringan.`;
+            previewActions.classList.remove('d-none');
+            validationMessage.classList.remove('d-none');
+        }
+    });
+});
+</script>

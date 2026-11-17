@@ -1,0 +1,663 @@
+<!-- ============================================================
+     Admin System Configuration Page — Multi-Provider AI & Fonnte
+     ============================================================ -->
+<div class="slide-up">
+
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+            <div>
+                <h1 class="page-header-title" style="display:flex;align-items:center;gap:10px;">
+                    <span style="width:38px;height:38px;border-radius:12px;background:rgba(124,58,237,0.12);display:inline-flex;align-items:center;justify-content:center;color:var(--brand-primary);font-size:1.1rem;">
+                        <i class="fa-solid fa-sliders"></i>
+                    </span>
+                    Konfigurasi Sistem
+                </h1>
+                <p class="page-header-subtitle">Pilih & atur provider AI, masukkan API Key, lalu uji koneksi sebelum menyimpan.</p>
+            </div>
+            <a href="/admin/dashboard" class="btn btn-secondary btn-sm" style="display:inline-flex;align-items:center;gap:8px;">
+                <i class="fa-solid fa-arrow-left"></i> Dashboard
+            </a>
+        </div>
+    </div>
+
+    <% if (locals.saved) { %>
+    <div class="alert alert-success d-flex align-items-center mb-4"
+         style="background:rgba(16,185,129,0.1);border:1px solid #10b981;color:#065f46;border-radius:14px;padding:14px 20px;">
+        <i class="fa-solid fa-circle-check me-2" style="font-size:1.2rem;color:#10b981;"></i>
+        <div><strong>Berhasil!</strong> Konfigurasi disimpan dan langsung aktif tanpa perlu restart server.</div>
+    </div>
+    <% } %>
+    <% if (locals.error) { %>
+    <div class="alert alert-danger d-flex align-items-center mb-4"
+         style="background:rgba(239,68,68,0.1);border:1px solid #ef4444;color:#991b1b;border-radius:14px;padding:14px 20px;">
+        <i class="fa-solid fa-circle-exclamation me-2" style="font-size:1.2rem;color:#ef4444;"></i>
+        <div><strong>Gagal menyimpan!</strong> Terjadi kendala saat memperbarui file konfigurasi.</div>
+    </div>
+    <% } %>
+
+    <!-- ============================================================
+         SECTION 0: PROFIL ADMINISTRATOR (UBAH NAMA)
+         ============================================================ -->
+    <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:24px;">
+        <div style="padding:18px 24px;border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;background:rgba(124,58,237,0.03);flex-wrap:wrap;gap:12px;">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:40px;height:40px;border-radius:12px;background:rgba(124,58,237,0.12);display:flex;align-items:center;justify-content:center;color:var(--brand-primary);font-size:1.2rem;">
+                    <i class="fa-solid fa-user-gear"></i>
+                </div>
+                <div>
+                    <div style="font-weight:700;font-size:0.95rem;color:var(--text-primary);">Profil Administrator</div>
+                    <div style="font-size:0.75rem;color:var(--text-muted);">Ubah nama tampilan akun Admin Anda di sistem</div>
+                </div>
+            </div>
+            <span style="font-size:0.72rem;padding:4px 12px;border-radius:99px;background:rgba(124,58,237,0.12);color:var(--brand-primary);font-weight:700;display:inline-flex;align-items:center;gap:6px;">
+                <i class="fa-solid fa-shield-halved"></i> ROLE: ADMINISTRATOR
+            </span>
+        </div>
+        <form action="/admin/profile/update-name" method="POST" id="form-update-admin-name" style="padding:22px 24px;">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-5">
+                    <label style="font-size:0.82rem;font-weight:700;color:var(--text-primary);margin-bottom:6px;display:block;">
+                        Nama Administrator
+                    </label>
+                    <input type="text" name="name" id="admin-name-input" class="form-control"
+                           value="<%= user ? user.name : 'Administrator' %>" required
+                           placeholder="Masukkan nama tampilan Anda"
+                           style="background:var(--bg-input,#fff);border:1px solid var(--border-color);border-radius:12px;padding:10px 14px;font-size:0.875rem;">
+                </div>
+                <div class="col-md-4">
+                    <label style="font-size:0.82rem;font-weight:700;color:var(--text-primary);margin-bottom:6px;display:block;">
+                        Email Akun
+                    </label>
+                    <input type="text" class="form-control" value="<%= user ? (user.email || 'admin@skincheck.com') : '' %>" disabled readonly
+                           style="background:var(--bg-input,#f4f3ff);border:1px solid var(--border-color);border-radius:12px;padding:10px 14px;font-size:0.875rem;opacity:0.75;">
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100" id="btn-save-admin-name"
+                            style="padding:10px 18px;border-radius:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;">
+                        <i class="fa-solid fa-check"></i> Simpan Nama
+                    </button>
+                </div>
+            </div>
+            <div id="admin-name-feedback" style="display:none;margin-top:14px;padding:10px 16px;border-radius:10px;font-size:0.8rem;"></div>
+        </form>
+    </div>
+
+    <!-- ============================================================
+         SECTION 1: PILIH PROVIDER AI AKTIF
+         ============================================================ -->
+    <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:18px;padding:22px 24px;box-shadow:var(--shadow-sm);margin-bottom:24px;">
+        <h3 style="font-size:0.95rem;font-weight:700;color:var(--text-primary);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+            <i class="fa-solid fa-robot" style="color:var(--brand-primary);"></i>
+            Provider AI Aktif
+            <span style="font-size:0.75rem;font-weight:500;color:var(--text-muted);margin-left:4px;">— Pilih provider yang digunakan saat ini</span>
+        </h3>
+
+        <!-- Provider Selector Cards -->
+        <div id="provider-selector" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:20px;">
+            <%
+            const providerDefs = {
+                nvidia:   { label: 'NVIDIA NIM',     icon: 'fa-microchip',   color: '#76b900', desc: 'Llama / Nemotron' },
+                gemini:   { label: 'Google Gemini',  icon: 'fa-google',      color: '#4285F4', desc: 'Flash / Pro' },
+                openai:   { label: 'OpenAI',         icon: 'fa-brain',       color: '#10a37f', desc: 'GPT-4o / GPT-4' },
+                anthropic:{ label: 'Anthropic',      icon: 'fa-a',           color: '#d4a27f', desc: 'Claude Sonnet/Haiku' },
+                groq:     { label: 'Groq',           icon: 'fa-bolt',        color: '#f55036', desc: 'Llama / Gemma Ultra-Fast' },
+                ollama:   { label: 'Ollama (Lokal)', icon: 'fa-server',      color: '#845ef7', desc: 'Run model di PC sendiri' },
+            };
+            for (const [pk, pd] of Object.entries(providerDefs)) {
+                const isActive = config.activeProvider === pk;
+                const status = config.providerStatus[pk] || {};
+                const isConfigured = status.hasKey;
+            %>
+            <button type="button" class="provider-card <%= isActive ? 'provider-card--active' : '' %>"
+                    data-provider="<%= pk %>"
+                    onclick="selectProvider('<%= pk %>')"
+                    style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 10px;border-radius:14px;border:2px solid <%= isActive ? pd.color : 'var(--border-color)' %>;background:<%= isActive ? 'rgba(' + (pd.color === '#76b900' ? '118,185,0' : pd.color === '#4285F4' ? '66,133,244' : pd.color === '#10a37f' ? '16,163,127' : pd.color === '#d4a27f' ? '212,162,127' : pd.color === '#f55036' ? '245,80,54' : '132,94,247') + ',0.08)' : 'var(--bg-card)' %>;cursor:pointer;transition:all 0.2s;position:relative;text-align:center;">
+                <i class="fa-brands <%= pd.icon %>" style="font-size:1.5rem;color:<%= pd.color %>;"></i>
+                <div>
+                    <div style="font-size:0.78rem;font-weight:700;color:var(--text-primary);"><%= pd.label %></div>
+                    <div style="font-size:0.68rem;color:var(--text-muted)"><%= pd.desc %></div>
+                </div>
+                <% if (isConfigured) { %>
+                    <span style="position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:#10b981;" title="API Key terkonfigurasi"></span>
+                <% } %>
+                <% if (isActive) { %>
+                    <span style="font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:99px;background:<%= pd.color %>;color:#fff;">AKTIF</span>
+                <% } %>
+            </button>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         SECTION 2: FORM KONFIGURASI DETAIL (Per Provider Panel)
+         ============================================================ -->
+    <form action="/admin/settings" method="POST" id="config-form">
+        <!-- Hidden: active provider selection -->
+        <input type="hidden" name="AI_PROVIDER" id="input-ai-provider" value="<%= config.activeProvider %>">
+
+        <!-- Per-Provider Config Panels -->
+        <%
+        const panelDefs = {
+            nvidia: {
+                label: 'NVIDIA NIM',
+                icon: 'fa-microchip', color: '#76b900',
+                description: 'Jalankan model Meta Llama, Nemotron, dan lainnya via NVIDIA NIM cloud inference.',
+                fields: [
+                    { label: 'NVIDIA API Key', envKey: 'NVIDIA_API_KEY', type: 'password', placeholder: 'nvapi-...', help: 'Dapatkan di build.nvidia.com → Generate API Key' },
+                    { label: 'Model Utama', envKey: 'NVIDIA_MODEL', type: 'select', options: ['meta/llama-3.2-11b-vision-instruct','meta/llama-3.2-90b-vision-instruct','nvidia/nemotron-3.5-lightning-30b-a3b','moonshotai/kimi-k3'], help: 'Model ini dicoba pertama. Jika gagal, fallback ke model berikutnya.' },
+                    { label: 'API Base URL', envKey: 'NVIDIA_API_BASE_URL', type: 'text', placeholder: 'https://integrate.api.nvidia.com/v1', help: 'Ubah jika menggunakan endpoint custom / proxy.' },
+                ],
+                docsUrl: 'https://build.nvidia.com',
+                docsLabel: 'build.nvidia.com',
+                docsSteps: ['Kunjungi build.nvidia.com dan login/daftar akun NVIDIA (gratis).','Klik model pilihan (misal: meta/llama-3.2-11b-vision-instruct).','Klik tombol "Get API Key" dan salin kunci dimulai dengan nvapi-...','Tempel di kolom "NVIDIA API Key" di atas, lalu klik "Tes Koneksi".'],
+            },
+            gemini: {
+                label: 'Google Gemini',
+                icon: 'fa-google', color: '#4285F4',
+                description: 'Google Gemini Flash/Pro — cepat, multilingual, gratis tier tersedia. Sangat baik untuk Bahasa Indonesia.',
+                fields: [
+                    { label: 'Gemini API Key', envKey: 'GEMINI_API_KEY', type: 'password', placeholder: 'AIza...', help: 'Dapatkan gratis di Google AI Studio (aistudio.google.com).' },
+                    { label: 'Model', envKey: 'GEMINI_MODEL', type: 'select', options: ['gemini-1.5-flash','gemini-2.0-flash','gemini-2.5-flash','gemini-3.5-flash-lite','gemini-3.8-flash'], help: 'gemini-1.5-flash dan gemini-2.0-flash sangat stabil dan jarang overload.' },
+                ],
+                docsUrl: 'https://aistudio.google.com',
+                docsLabel: 'aistudio.google.com',
+                docsSteps: ['Buka Google AI Studio di aistudio.google.com.','Login dengan akun Google Anda.','Klik "Get API Key" → "Create API Key".','Tempel di kolom "Gemini API Key" di atas.'],
+            },
+            openai: {
+                label: 'OpenAI',
+                icon: 'fa-brain', color: '#10a37f',
+                description: 'Model GPT-4o dan keluarganya dari OpenAI. Berbayar (pay-per-use), sangat akurat.',
+                fields: [
+                    { label: 'OpenAI API Key', envKey: 'OPENAI_API_KEY', type: 'password', placeholder: 'sk-...', help: 'Dapatkan di platform.openai.com → API Keys.' },
+                    { label: 'Model', envKey: 'OPENAI_MODEL', type: 'select', options: ['gpt-4o','gpt-4o-mini','gpt-4-turbo','gpt-3.5-turbo'], help: 'gpt-4o-mini cepat dan hemat. gpt-4o untuk kualitas terbaik.' },
+                    { label: 'API Base URL (Opsional)', envKey: 'OPENAI_API_BASE_URL', type: 'text', placeholder: 'https://api.openai.com/v1', help: 'Biarkan default kecuali menggunakan proxy/custom endpoint.' },
+                ],
+                docsUrl: 'https://platform.openai.com',
+                docsLabel: 'platform.openai.com',
+                docsSteps: ['Login ke platform.openai.com.','Buka menu "API Keys" di sidebar.','Klik "+ Create new secret key".','Tempel kunci dimulai dengan sk-... di kolom di atas.'],
+            },
+            anthropic: {
+                label: 'Anthropic Claude',
+                icon: 'fa-a', color: '#d4a27f',
+                description: 'Claude dari Anthropic — unggul dalam pemahaman konteks panjang dan analisis mendalam.',
+                fields: [
+                    { label: 'Anthropic API Key', envKey: 'ANTHROPIC_API_KEY', type: 'password', placeholder: 'sk-ant-...', help: 'Dapatkan di console.anthropic.com.' },
+                    { label: 'Model', envKey: 'ANTHROPIC_MODEL', type: 'select', options: ['claude-haiku-4-5','claude-sonnet-4-5','claude-opus-4-5','claude-3-5-sonnet-20241022'], help: 'claude-haiku-4-5: cepat & hemat. claude-sonnet-4-5: seimbang.' },
+                ],
+                docsUrl: 'https://console.anthropic.com',
+                docsLabel: 'console.anthropic.com',
+                docsSteps: ['Buka console.anthropic.com dan buat akun.','Navigasi ke menu "API Keys".','Klik "Create Key" dan salin kuncinya.','Tempel di kolom "Anthropic API Key".'],
+            },
+            groq: {
+                label: 'Groq',
+                icon: 'fa-bolt', color: '#f55036',
+                description: 'Groq menawarkan inferensi model LLM dengan kecepatan sangat tinggi. Tersedia tier gratis.',
+                fields: [
+                    { label: 'Groq API Key', envKey: 'GROQ_API_KEY', type: 'password', placeholder: 'gsk_...', help: 'Dapatkan gratis di console.groq.com.' },
+                    { label: 'Model', envKey: 'GROQ_MODEL', type: 'select', options: ['llama-3.3-70b-versatile','llama-3.1-8b-instant','gemma2-9b-it','mixtral-8x7b-32768'], help: 'llama-3.3-70b-versatile: powerful. llama-3.1-8b-instant: tercepat.' },
+                ],
+                docsUrl: 'https://console.groq.com',
+                docsLabel: 'console.groq.com',
+                docsSteps: ['Buka console.groq.com dan daftar akun gratis.','Navigasi ke "API Keys".','Klik "Create API Key" dan salin kuncinya (gsk_...).','Tempel di kolom "Groq API Key".'],
+            },
+            ollama: {
+                label: 'Ollama (Lokal)',
+                icon: 'fa-server', color: '#845ef7',
+                description: 'Jalankan model AI secara lokal di komputer Anda sendiri menggunakan Ollama. Gratis, privat, tanpa internet.',
+                fields: [
+                    { label: 'Model Lokal', envKey: 'OLLAMA_MODEL', type: 'select', options: ['llama3.2','llama3.1','mistral','gemma2','qwen2.5','phi3'], help: 'Pastikan model sudah di-download: jalankan "ollama pull llama3.2".' },
+                    { label: 'Ollama Base URL', envKey: 'OLLAMA_BASE_URL', type: 'text', placeholder: 'http://localhost:11434/v1', help: 'URL server Ollama yang berjalan di PC. Default: localhost:11434.' },
+                ],
+                docsUrl: 'https://ollama.com',
+                docsLabel: 'ollama.com',
+                docsSteps: ['Unduh dan install Ollama dari ollama.com.','Buka terminal dan jalankan: ollama pull llama3.2','Pastikan Ollama berjalan di background (ollama serve).','Pilih model dan klik "Tes Koneksi Lokal".'],
+            },
+        };
+        for (const [pk, pd] of Object.entries(panelDefs)) {
+            const isActive = config.activeProvider === pk;
+            const status = config.providerStatus[pk] || {};
+        %>
+        <div class="provider-panel" id="panel-<%= pk %>" style="display:<%= isActive ? 'block' : 'none' %>;margin-bottom:24px;">
+            <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);">
+
+                <!-- Panel Header -->
+                <div style="padding:18px 24px;border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.02);">
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <div style="width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;background:rgba(0,0,0,0.06);color:<%= pd.color %>;">
+                            <i class="fa-brands <%= pd.icon %>"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight:700;font-size:0.95rem;color:var(--text-primary);"><%= pd.label %></div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);"><%= pd.description %></div>
+                        </div>
+                    </div>
+                    <div>
+                        <% if (status.hasKey) { %>
+                        <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-size:0.72rem;font-weight:600;background:rgba(16,185,129,0.12);color:#10b981;">
+                            <span style="width:6px;height:6px;border-radius:50%;background:#10b981;"></span>Terkonfigurasi
+                        </span>
+                        <% } else { %>
+                        <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-size:0.72rem;font-weight:600;background:rgba(239,68,68,0.12);color:#ef4444;">
+                            <span style="width:6px;height:6px;border-radius:50%;background:#ef4444;"></span>Belum Diatur
+                        </span>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Panel Body -->
+                <div style="padding:22px 24px;">
+                    <div class="row g-3 mb-4">
+                        <% for (const field of pd.fields) {
+                            const currentVal = field.type === 'password' ? '' : (process.env[field.envKey] || field.placeholder || '');
+                            const maskedVal = status.maskedKey && field.type === 'password' ? status.maskedKey : '';
+                        %>
+                        <div class="col-md-<%= pd.fields.length > 2 ? '4' : '6' %>">
+                            <label style="font-size:0.82rem;font-weight:700;color:var(--text-primary);margin-bottom:6px;display:flex;justify-content:space-between;">
+                                <span><%= field.label %></span>
+                                <% if (field.type === 'password' && maskedVal) { %>
+                                    <span style="font-size:0.72rem;color:var(--text-muted);font-weight:normal;">Aktif: <code><%= maskedVal %></code></span>
+                                <% } %>
+                            </label>
+                            <% if (field.type === 'password') { %>
+                            <div style="position:relative;">
+                                <input type="password" name="<%= field.envKey %>" class="form-control"
+                                       placeholder="<%= maskedVal ? 'Kosongkan jika tidak ingin mengubah' : field.placeholder %>"
+                                       autocomplete="new-password"
+                                       style="background:var(--bg-input,#fff);border:1px solid var(--border-color);border-radius:12px;padding:10px 42px 10px 14px;font-size:0.875rem;">
+                                <button type="button" onclick="togglePwd(this)"
+                                        style="position:absolute;right:10px;top:50%;transform:translateY(-50%);border:none;background:transparent;color:var(--text-muted);cursor:pointer;padding:6px;">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                            <% } else if (field.type === 'select') { %>
+                            <select name="<%= field.envKey %>" class="form-select"
+                                    style="background:var(--bg-input,#fff);border:1px solid var(--border-color);border-radius:12px;padding:10px 14px;font-size:0.875rem;">
+                                <% for (const opt of field.options) { %>
+                                    <option value="<%= opt %>" <%= (process.env[field.envKey] === opt || (!process.env[field.envKey] && field.options[0] === opt)) ? 'selected' : '' %>><%= opt %></option>
+                                <% } %>
+                            </select>
+                            <% } else { %>
+                            <input type="text" name="<%= field.envKey %>" class="form-control"
+                                   value="<%= process.env[field.envKey] || '' %>"
+                                   placeholder="<%= field.placeholder || '' %>"
+                                   style="background:var(--bg-input,#fff);border:1px solid var(--border-color);border-radius:12px;padding:10px 14px;font-size:0.875rem;">
+                            <% } %>
+                            <div style="font-size:0.73rem;color:var(--text-muted);margin-top:4px;"><%= field.help %></div>
+                        </div>
+                        <% } %>
+                    </div>
+
+                    <!-- Test Connection Row -->
+                    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0 0;border-top:1px dashed var(--border-color);gap:16px;flex-wrap:wrap;">
+                        <div>
+                            <div style="font-size:0.82rem;font-weight:700;color:var(--text-primary);">Uji Coba Koneksi</div>
+                            <div style="font-size:0.73rem;color:var(--text-muted);">Simpan dulu, lalu klik tes — atau tes menggunakan konfigurasi yang sudah tersimpan di server.</div>
+                        </div>
+                        <button type="button" class="btn btn-sm"
+                                onclick="runAiTest('<%= pk %>')"
+                                id="btn-test-<%= pk %>"
+                                style="border-radius:10px;font-size:0.78rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;border:1.5px solid <%= pd.color %>;color:<%= pd.color %>;background:transparent;padding:8px 16px;min-width:140px;">
+                            <i class="fa-solid fa-plug-circle-bolt"></i> Tes Koneksi
+                        </button>
+                    </div>
+                    <!-- Test Result Box -->
+                    <div id="ai-test-result-<%= pk %>" style="display:none;margin-top:12px;padding:12px 14px;border-radius:12px;font-size:0.78rem;"></div>
+
+                    <!-- Setup Guide -->
+                    <details style="margin-top:16px;">
+                        <summary style="cursor:pointer;font-size:0.8rem;font-weight:700;color:var(--brand-primary);display:flex;align-items:center;gap:6px;list-style:none;user-select:none;">
+                            <i class="fa-solid fa-circle-info"></i> Cara mendapatkan API Key <%= pd.label %>
+                        </summary>
+                        <div style="margin-top:10px;padding:14px 16px;background:rgba(0,0,0,0.03);border-radius:12px;border:1px solid var(--border-color);">
+                            <ol style="margin:0;padding-left:18px;font-size:0.78rem;color:var(--text-secondary,#475569);line-height:1.8;">
+                                <% for (const step of pd.docsSteps) { %>
+                                <li><%= step %></li>
+                                <% } %>
+                            </ol>
+                            <a href="<%= pd.docsUrl %>" target="_blank" style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:0.75rem;color:var(--brand-primary);font-weight:600;text-decoration:none;">
+                                <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.65rem;"></i> Buka <%= pd.docsLabel %>
+                            </a>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+        <% } %>
+
+        <!-- ============================================================
+             SECTION 3: WHATSAPP GATEWAY (FONNTE)
+             ============================================================ -->
+        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:24px;">
+            <div style="padding:18px 24px;border-bottom:1px solid var(--border-color);display:flex;align-items:center;justify-content:space-between;background:rgba(37,211,102,0.03);">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:40px;height:40px;border-radius:12px;background:rgba(37,211,102,0.12);display:flex;align-items:center;justify-content:center;color:#10b981;font-size:1.3rem;">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight:700;font-size:0.95rem;color:var(--text-primary);">WhatsApp Gateway — Fonnte</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">Kirim OTP & verifikasi nomor HP pengguna</div>
+                    </div>
+                </div>
+                <% if (config.fonnte.hasKey) { %>
+                <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-size:0.72rem;font-weight:600;background:rgba(16,185,129,0.12);color:#10b981;">
+                    <span style="width:6px;height:6px;border-radius:50%;background:#10b981;"></span>Terkonfigurasi
+                </span>
+                <% } else { %>
+                <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-size:0.72rem;font-weight:600;background:rgba(239,68,68,0.12);color:#ef4444;">
+                    <span style="width:6px;height:6px;border-radius:50%;background:#ef4444;"></span>Belum Diatur
+                </span>
+                <% } %>
+            </div>
+            <div style="padding:22px 24px;">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label style="font-size:0.82rem;font-weight:700;color:var(--text-primary);margin-bottom:6px;display:flex;justify-content:space-between;">
+                            <span>Fonnte Device Token</span>
+                            <% if (config.fonnte.hasKey) { %>
+                                <span style="font-size:0.72rem;color:var(--text-muted);font-weight:normal;">Aktif: <code><%= config.fonnte.maskedKey %></code></span>
+                            <% } %>
+                        </label>
+                        <div style="position:relative;">
+                            <input type="password" name="fonnteApiKey" class="form-control" autocomplete="new-password"
+                                   placeholder="<%= config.fonnte.hasKey ? 'Kosongkan jika tidak ingin mengubah' : 'Device token dari fonnte.com' %>"
+                                   style="background:var(--bg-input,#fff);border:1px solid var(--border-color);border-radius:12px;padding:10px 42px 10px 14px;font-size:0.875rem;">
+                            <button type="button" onclick="togglePwd(this)"
+                                    style="position:absolute;right:10px;top:50%;transform:translateY(-50%);border:none;background:transparent;color:var(--text-muted);cursor:pointer;padding:6px;">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                        <div style="font-size:0.73rem;color:var(--text-muted);margin-top:4px;">Token perangkat dari dashboard fonnte.com setelah scan QR.</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="font-size:0.82rem;font-weight:700;color:var(--text-primary);margin-bottom:6px;">Fonnte API Base URL</label>
+                        <input type="text" name="fonnteApiUrl" class="form-control"
+                               value="<%= config.fonnte.apiUrl %>"
+                               style="background:var(--bg-input,#fff);border:1px solid var(--border-color);border-radius:12px;padding:10px 14px;font-size:0.875rem;">
+                    </div>
+                    <div class="col-12 mt-2">
+                        <label style="font-size:0.82rem;font-weight:700;color:var(--text-primary);margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+                            <i class="fa-solid fa-bell" style="color:#10b981;"></i>
+                            <span>Nomor WhatsApp Admin (Notifikasi Otomatis User Baru)</span>
+                        </label>
+                        <input type="text" name="adminPhone" class="form-control"
+                               value="<%= config.fonnte.adminPhone || '' %>"
+                               placeholder="Contoh: 08123456789 atau 628123456789"
+                               style="background:var(--bg-input,#fff);border:1px solid var(--border-color);border-radius:12px;padding:10px 14px;font-size:0.875rem;">
+                        <div style="font-size:0.73rem;color:var(--text-muted);margin-top:4px;">
+                            Jika diisi, server akan otomatis mengirim pesan WhatsApp ke nomor ini setiap kali ada customer baru mendaftar. Kosongkan jika hanya ingin notifikasi di website/dashboard.
+                        </div>
+                    </div>
+                </div>
+                <!-- Fonnte Test Row -->
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0 0;border-top:1px dashed var(--border-color);gap:16px;flex-wrap:wrap;">
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <a href="/whatsapp/verify" target="_blank" class="btn btn-secondary btn-sm" style="font-size:0.78rem;border-radius:10px;display:inline-flex;align-items:center;gap:6px;">
+                            <i class="fa-solid fa-mobile-screen"></i> Uji Cek Nomor WA
+                        </a>
+                        <a href="/whatsapp/history" target="_blank" class="btn btn-secondary btn-sm" style="font-size:0.78rem;border-radius:10px;display:inline-flex;align-items:center;gap:6px;">
+                            <i class="fa-solid fa-clock-rotate-left"></i> Riwayat Verifikasi
+                        </a>
+                    </div>
+                    <button type="button" class="btn btn-sm" onclick="runFonnteTest()"
+                            id="btn-test-fonnte"
+                            style="border-radius:10px;font-size:0.78rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;border:1.5px solid #10b981;color:#10b981;background:transparent;padding:8px 16px;min-width:140px;">
+                        <i class="fa-solid fa-plug-circle-bolt"></i> Tes Koneksi WA
+                    </button>
+                </div>
+                <div id="fonnte-test-result" style="display:none;margin-top:12px;padding:12px 14px;border-radius:12px;font-size:0.78rem;"></div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             SAVE BAR
+             ============================================================ -->
+        <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:18px;padding:18px 24px;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+            <div>
+                <div style="font-weight:700;font-size:0.9rem;color:var(--text-primary);">Simpan Semua Perubahan</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">
+                    Perubahan ditulis ke file <code>.env</code> dan langsung diterapkan di server — tanpa perlu restart.
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="btn-save-config"
+                    style="padding:10px 28px;border-radius:12px;font-weight:600;display:inline-flex;align-items:center;gap:8px;">
+                <i class="fa-solid fa-floppy-disk"></i> Simpan Konfigurasi
+            </button>
+        </div>
+
+    </form>
+</div>
+
+<script>
+// ============================================================
+// Toggle Password Visibility
+// ============================================================
+function togglePwd(btn) {
+    const input = btn.previousElementSibling || btn.parentElement.querySelector('input');
+    const icon = btn.querySelector('i');
+    if (!input) return;
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+}
+
+// ============================================================
+// Provider Selector
+// ============================================================
+function selectProvider(pk) {
+    // Update hidden input
+    document.getElementById('input-ai-provider').value = pk;
+
+    // Update card styles
+    document.querySelectorAll('.provider-card').forEach(card => {
+        const cpk = card.dataset.provider;
+        const isThis = cpk === pk;
+        card.style.borderColor = isThis ? getProviderColor(cpk) : 'var(--border-color)';
+        card.style.background  = isThis ? 'rgba(0,0,0,0.06)' : 'var(--bg-card)';
+    });
+
+    // Show/hide panels
+    document.querySelectorAll('.provider-panel').forEach(panel => {
+        panel.style.display = panel.id === 'panel-' + pk ? 'block' : 'none';
+    });
+}
+
+function getProviderColor(pk) {
+    const colors = { nvidia:'#76b900', gemini:'#4285F4', openai:'#10a37f', anthropic:'#d4a27f', groq:'#f55036', ollama:'#845ef7' };
+    return colors[pk] || 'var(--brand-primary)';
+}
+
+// ============================================================
+// Test AI Connection (per provider)
+// ============================================================
+async function runAiTest(provider) {
+    const btn = document.getElementById('btn-test-' + provider);
+    const resultBox = document.getElementById('ai-test-result-' + provider);
+    if (!btn || !resultBox) return;
+
+    const origHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menghubungkan...';
+
+    resultBox.style.display = 'block';
+    resultBox.style.background = 'rgba(124,58,237,0.06)';
+    resultBox.style.border = '1px solid rgba(124,58,237,0.2)';
+    resultBox.innerHTML = '<div style="display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-spinner fa-spin"></i> Mengirim permintaan uji ke provider <strong>' + provider.toUpperCase() + '</strong>...</div>';
+
+    try {
+        const res = await fetch('/api/admin/test-ai', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ provider })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            resultBox.style.background = 'rgba(16,185,129,0.1)';
+            resultBox.style.border     = '1px solid #10b981';
+            resultBox.innerHTML = `
+                <div style="display:flex;align-items:flex-start;gap:10px;">
+                    <i class="fa-solid fa-circle-check" style="color:#10b981;font-size:1.1rem;margin-top:2px;"></i>
+                    <div>
+                        <div style="font-weight:700;color:#065f46;">Koneksi Berhasil! (${data.latency}ms)</div>
+                        <div style="margin-top:3px;font-size:0.75rem;">Model: <code>${data.model || '-'}</code></div>
+                        <div style="margin-top:3px;color:#047857;">${data.message}</div>
+                    </div>
+                </div>`;
+        } else {
+            resultBox.style.background = 'rgba(239,68,68,0.1)';
+            resultBox.style.border     = '1px solid #ef4444';
+            resultBox.innerHTML = `
+                <div style="display:flex;align-items:flex-start;gap:10px;">
+                    <i class="fa-solid fa-circle-xmark" style="color:#ef4444;font-size:1.1rem;margin-top:2px;"></i>
+                    <div>
+                        <div style="font-weight:700;color:#991b1b;">Koneksi Gagal</div>
+                        <div style="margin-top:3px;">${data.message}</div>
+                        <div style="margin-top:4px;font-size:0.73rem;color:#b91c1c;">Tips: Simpan konfigurasi terlebih dahulu jika baru memasukkan API Key baru, lalu coba tes lagi.</div>
+                    </div>
+                </div>`;
+        }
+    } catch (err) {
+        resultBox.style.background = 'rgba(239,68,68,0.1)';
+        resultBox.style.border     = '1px solid #ef4444';
+        resultBox.innerHTML = `<div style="color:#991b1b;"><i class="fa-solid fa-circle-xmark me-2"></i>Gagal menghubungi server: ${err.message}</div>`;
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = origHtml;
+    }
+}
+
+// ============================================================
+// Test Fonnte Connection
+// ============================================================
+async function runFonnteTest() {
+    const btn = document.getElementById('btn-test-fonnte');
+    const resultBox = document.getElementById('fonnte-test-result');
+    const origHtml = btn.innerHTML;
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menghubungkan...';
+    resultBox.style.display = 'block';
+    resultBox.style.background = 'rgba(37,211,102,0.06)';
+    resultBox.style.border     = '1px solid rgba(37,211,102,0.2)';
+    resultBox.innerHTML = '<div style="display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-spinner fa-spin"></i> Memeriksa status perangkat ke server Fonnte...</div>';
+
+    try {
+        const res = await fetch('/api/admin/test-fonnte', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await res.json();
+
+        if (data.connected) {
+            const isOnline = data.deviceStatus && data.deviceStatus.toLowerCase() === 'connect';
+            const col  = isOnline ? '#10b981' : '#f59e0b';
+            const bg   = isOnline ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)';
+            const bdr  = isOnline ? '#10b981' : '#f59e0b';
+            resultBox.style.background = bg;
+            resultBox.style.border     = '1px solid ' + bdr;
+            resultBox.innerHTML = `
+                <div style="display:flex;align-items:flex-start;gap:10px;">
+                    <i class="fa-solid ${isOnline ? 'fa-circle-check' : 'fa-triangle-exclamation'}" style="color:${col};font-size:1.1rem;margin-top:2px;"></i>
+                    <div style="flex:1;">
+                        <div style="font-weight:700;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+                            <span style="color:${isOnline ? '#065f46' : '#92400e'}">API Fonnte Terhubung (${data.latency || 0}ms)</span>
+                            <span style="font-size:0.68rem;padding:2px 8px;border-radius:6px;background:${col};color:#fff;">WA: ${(data.deviceStatus || '?').toUpperCase()}</span>
+                        </div>
+                        <div style="margin-top:6px;font-size:0.75rem;line-height:1.6;color:${isOnline ? '#065f46' : '#92400e'};">
+                            ${data.name && data.name !== '-' ? '<div>Nama: <strong>' + data.name + '</strong> (' + (data.device || '-') + ')</div>' : ''}
+                            ${data.quota && data.quota !== '-' ? '<div>Sisa kuota: <strong>' + data.quota + '</strong> pesan · Paket: ' + (data.package || '-') + ' · Berlaku hingga: ' + (data.expired || '-') + '</div>' : ''}
+                            ${!isOnline ? '<div style="margin-top:4px;"><em>Perangkat WA belum terhubung. Scan QR di fonnte.com.</em></div>' : ''}
+                        </div>
+                    </div>
+                </div>`;
+        } else {
+            resultBox.style.background = 'rgba(239,68,68,0.1)';
+            resultBox.style.border     = '1px solid #ef4444';
+            resultBox.innerHTML = `
+                <div style="display:flex;align-items:flex-start;gap:10px;">
+                    <i class="fa-solid fa-circle-xmark" style="color:#ef4444;font-size:1.1rem;margin-top:2px;"></i>
+                    <div><div style="font-weight:700;color:#991b1b;">Koneksi Fonnte Gagal</div>
+                    <div style="margin-top:3px;">${data.message || 'Token tidak valid atau server tidak merespons.'}</div></div>
+                </div>`;
+        }
+    } catch (err) {
+        resultBox.style.background = 'rgba(239,68,68,0.1)';
+        resultBox.style.border     = '1px solid #ef4444';
+        resultBox.innerHTML = `<div style="color:#991b1b;"><i class="fa-solid fa-circle-xmark me-2"></i>${err.message}</div>`;
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = origHtml;
+    }
+}
+
+// ============================================================
+// Update Admin Name (AJAX)
+// ============================================================
+const formAdminName = document.getElementById('form-update-admin-name');
+if (formAdminName) {
+    formAdminName.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const input = document.getElementById('admin-name-input');
+        const btn = document.getElementById('btn-save-admin-name');
+        const feedback = document.getElementById('admin-name-feedback');
+        const newName = input.value.trim();
+
+        if (!newName) return;
+
+        const origHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...';
+        feedback.style.display = 'none';
+
+        try {
+            const res = await fetch('/admin/profile/update-name', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ name: newName })
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                feedback.style.display = 'block';
+                feedback.style.background = 'rgba(16,185,129,0.1)';
+                feedback.style.border = '1px solid #10b981';
+                feedback.style.color = '#065f46';
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i><strong>Sukses!</strong> Nama Administrator berhasil diubah menjadi <strong>' + data.name + '</strong>.';
+
+                // Update nama di sidebar langsung secara visual
+                const sidebarName = document.querySelector('.sidebar-user-name');
+                const sidebarAvatar = document.querySelector('.sidebar-user-avatar');
+                if (sidebarName) sidebarName.textContent = data.name;
+                if (sidebarAvatar) sidebarAvatar.textContent = data.name.charAt(0).toUpperCase();
+
+                setTimeout(() => {
+                    feedback.style.display = 'none';
+                }, 5000);
+            } else {
+                feedback.style.display = 'block';
+                feedback.style.background = 'rgba(239,68,68,0.1)';
+                feedback.style.border = '1px solid #ef4444';
+                feedback.style.color = '#991b1b';
+                feedback.innerHTML = '<i class="fa-solid fa-circle-exclamation me-2"></i>' + (data.message || 'Gagal mengubah nama.');
+            }
+        } catch (err) {
+            feedback.style.display = 'block';
+            feedback.style.background = 'rgba(239,68,68,0.1)';
+            feedback.style.border = '1px solid #ef4444';
+            feedback.style.color = '#991b1b';
+            feedback.innerHTML = '<i class="fa-solid fa-circle-exclamation me-2"></i>Koneksi server terputus.';
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = origHtml;
+        }
+    });
+}
+</script>

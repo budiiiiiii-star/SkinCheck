@@ -1,0 +1,92 @@
+<!-- Customer Recommendations Page -->
+<div class="slide-up">
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+            <div>
+                <h1 class="page-header-title"><i class="fa-solid fa-wand-magic-sparkles me-2" style="background:linear-gradient(135deg,#7c3aed,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></i>Rekomendasi Skincare</h1>
+                <p class="page-header-subtitle">Produk yang disarankan berdasarkan katalog kami &amp; profil kulit Anda.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="alert alert-secondary mb-5">
+        <i class="fa-solid fa-circle-info me-2" style="color:var(--brand-primary);"></i>
+        <strong>Disclaimer Medis:</strong> Produk di bawah ini adalah <strong>produk kosmetik/OTC yang dapat dipertimbangkan</strong> untuk membantu merawat kulit Anda.
+        Produk ini <strong>tidak diklaim pasti dapat menyembuhkan penyakit medis</strong>. Jika Anda mengalami kondisi kulit serius, harap berkonsultasi dengan dokter.
+    </div>
+
+    <!-- Products Grid -->
+    <div class="row g-4">
+        <% if (products && products.length > 0) { %>
+            <% products.forEach((p, idx) => { %>
+                <div class="col-md-6">
+                    <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);height:100%;transition:all 0.3s ease;"
+                         onmouseenter="this.style.boxShadow='var(--shadow-md)';this.style.transform='translateY(-3px)';this.style.borderColor='var(--border-hover)'"
+                         onmouseleave="this.style.boxShadow='var(--shadow-sm)';this.style.transform='translateY(0)';this.style.borderColor='var(--border-color)'">
+
+                        <!-- Card Header -->
+                        <div style="padding:18px 20px;border-bottom:1px solid var(--border-color);">
+                            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+                                <div>
+                                    <span style="display:inline-flex;padding:3px 10px;border-radius:99px;background:rgba(124,58,237,0.1);color:var(--brand-primary);font-size:0.72rem;font-weight:600;margin-bottom:6px;"><%= p.category %></span>
+                                    <h3 style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:2px;"><%= p.brand %></h3>
+                                    <h4 style="font-size:0.875rem;font-weight:600;color:var(--brand-primary);margin:0;"><%= p.name %></h4>
+                                </div>
+                                <div style="width:44px;height:44px;border-radius:12px;background:rgba(124,58,237,0.08);display:flex;align-items:center;justify-content:center;color:var(--brand-primary);font-size:1.1rem;flex-shrink:0;">
+                                    <i class="fa-solid fa-bottle-droplet"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div style="padding:18px 20px;">
+                            <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.6;margin-bottom:14px;"><%= p.description %></p>
+
+                            <% if (p.skin_concern && p.skin_concern.length > 0) { %>
+                                <div style="margin-bottom:14px;">
+                                    <div style="font-size:0.72rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Target Concerns</div>
+                                    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                                        <% p.skin_concern.forEach(c => { %>
+                                            <span style="padding:3px 10px;border-radius:99px;background:var(--bg-surface-2);border:1px solid var(--border-color);font-size:0.72rem;color:var(--text-secondary);font-weight:500;"><%= c %></span>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            <% } %>
+
+                            <% if (p.ingredients) { %>
+                                <div>
+                                    <div style="font-size:0.72rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">Key Ingredients</div>
+                                    <p style="font-size:0.8rem;color:var(--text-secondary);margin:0;line-height:1.5;"><%= p.ingredients %></p>
+                                </div>
+                            <% } %>
+                        </div>
+
+                        <% if (p.usage_guidance) { %>
+                            <div style="padding:12px 20px;background:rgba(124,58,237,0.04);border-top:1px solid var(--border-color);">
+                                <div style="font-size:0.72rem;font-weight:600;color:var(--brand-primary);margin-bottom:3px;">
+                                    <i class="fa-solid fa-clipboard-list me-1"></i>Cara Pakai
+                                </div>
+                                <p style="font-size:0.8rem;color:var(--text-secondary);margin:0;"><%= p.usage_guidance %></p>
+                            </div>
+                        <% } %>
+
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <div class="col-12">
+                <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:18px;text-align:center;padding:60px 24px;">
+                    <div style="width:64px;height:64px;border-radius:20px;background:rgba(124,58,237,0.08);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:1.5rem;margin:0 auto 16px;">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                    <h3 style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:6px;">Katalog Sedang Kosong</h3>
+                    <p style="font-size:0.875rem;color:var(--text-muted);">Belum ada produk aktif di katalog saat ini.</p>
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+</div>

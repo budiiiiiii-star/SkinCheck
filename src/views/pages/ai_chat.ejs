@@ -1,0 +1,240 @@
+<!-- AI Chat Page -->
+<div class="ai-chat-container slide-up">
+
+    <!-- Chat Header -->
+    <div class="ai-chat-header">
+        <div class="ai-chat-avatar">
+            <i class="fa-solid <%= user && user.role === 'ADMIN' ? 'fa-shield-halved' : 'fa-robot' %>"></i>
+        </div>
+        <div style="flex:1;">
+            <div style="font-weight:700;color:white;font-size:1rem;">
+                <%= user && user.role === 'ADMIN' ? 'SkinCheck Admin AI Assistant' : 'SkinCheck AI Assistant' %>
+            </div>
+            <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);display:flex;align-items:center;gap:6px;">
+                <span style="width:7px;height:7px;border-radius:50%;background:#34d399;display:inline-block;animation:chatbotStatusPulse 2s infinite;"></span>
+                <%= user && user.role === 'ADMIN' ? 'Terhubung realtime dengan Database PostgreSQL SkinCheck' : 'Tanya seputar edukasi skincare & kosmetik' %>
+            </div>
+        </div>
+        <a href="<%= user && user.role === 'ADMIN' ? '/admin/dashboard' : '/customer/dashboard' %>" class="btn btn-sm" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3)!important;color:white;" id="ai-chat-back-btn">
+            <i class="fa-solid fa-arrow-left"></i> Dashboard
+        </a>
+    </div>
+
+    <!-- Chat Body -->
+    <div id="chat-box" class="ai-chat-body">
+
+        <!-- Welcome Message -->
+        <div class="chat-message-ai chatbot-fade-in">
+            <div class="chat-message-ai-icon">
+                <i class="fa-solid <%= user && user.role === 'ADMIN' ? 'fa-shield-halved' : 'fa-robot' %>"></i>
+            </div>
+            <div class="chat-bubble">
+                <% if (user && user.role === 'ADMIN') { %>
+                    Halo Administrator <strong><%= user.name %></strong>! 🛡️<br>
+                    Saya adalah <strong>SkinCheck AI Admin Assistant</strong> yang terhubung langsung dengan database sistem SkinCheck.
+                    <br><br>
+                    Saya siap membantu Anda memantau dan menganalisis:
+                    <ul style="margin: 6px 0 10px 18px; padding: 0; font-size: 0.82rem; line-height: 1.5;">
+                        <li>📊 <strong>Metrik Platform:</strong> Total user, scan hari ini, rasio sukses/gagal scan.</li>
+                        <li>👥 <strong>Data Pengguna:</strong> Profil, usia, tipe kulit, tujuan skincare, dan status akun.</li>
+                        <li>📷 <strong>Riwayat Face Scan:</strong> Skor visual terbaru (jerawat, kemerahan, tekstur, dll).</li>
+                        <li>🧴 <strong>Pemeriksaan Sunscreen:</strong> Skor coverage dan status perlindungan.</li>
+                        <li>📦 <strong>Katalog Produk:</strong> Data produk aktif dan target masalah kulit.</li>
+                    </ul>
+                    Silakan ketik pertanyaan Anda atau gunakan tombol pintas di bawah!
+                <% } else { %>
+                    Halo <strong><%= user.name %></strong>! 👋 Saya adalah AI Assistant edukasi kosmetik SkinCheck.
+                    Saya dapat melihat hasil <em>scan</em> dan data profil Anda untuk memberikan tips perawatan kulit yang personal.
+                    <br><br>
+                    <em style="font-size:0.8rem;color:var(--text-muted);">Catatan: Saya tidak dapat mendiagnosis penyakit medis atau memberikan resep obat.</em>
+                <% } %>
+            </div>
+        </div>
+
+        <% if (user && user.role === 'ADMIN') { %>
+        <!-- Quick Action Buttons for Admin -->
+        <div class="chatbot-quick-actions chatbot-fade-in mb-3" id="admin-quick-actions" style="display:flex;flex-wrap:wrap;gap:8px;padding:6px 0;">
+            <button class="chatbot-quick-btn" data-msg="Bagaimana ringkasan statistik dan metrik sistem SkinCheck saat ini?" type="button">
+                <i class="fa-solid fa-chart-pie"></i> Ringkasan Statistik
+            </button>
+            <button class="chatbot-quick-btn" data-msg="Tampilkan daftar lengkap customer yang terdaftar beserta status akun dan profilnya." type="button">
+                <i class="fa-solid fa-users"></i> Data Pengguna
+            </button>
+            <button class="chatbot-quick-btn" data-msg="Tampilkan aktivitas face scan terbaru dan analisis skor kondisi kulit pengguna." type="button">
+                <i class="fa-solid fa-camera"></i> Riwayat Face Scan
+            </button>
+            <button class="chatbot-quick-btn" data-msg="Tampilkan riwayat pemeriksaan sunscreen dan rata-rata coverage skor." type="button">
+                <i class="fa-solid fa-sun"></i> Cek Sunscreen
+            </button>
+            <button class="chatbot-quick-btn" data-msg="Tampilkan daftar produk yang aktif di katalog rekomendasi." type="button">
+                <i class="fa-solid fa-box-open"></i> Katalog Produk
+            </button>
+        </div>
+        <% } %>
+
+    </div>
+
+    <!-- Chat Footer -->
+    <div class="ai-chat-footer">
+        <form id="chat-form" class="ai-chat-form">
+            <input type="text" id="chat-input" class="ai-chat-input" 
+                   placeholder="<%= user && user.role === 'ADMIN' ? 'Tanyakan database: statistik scan, customer, sunscreen, produk...' : 'Ketik pertanyaan Anda tentang skincare...' %>" 
+                   required autocomplete="off">
+            <button type="submit" id="send-btn" class="ai-chat-send" aria-label="Kirim pesan">
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </form>
+        <p style="text-align:center;font-size:0.65rem;color:var(--text-muted);margin-top:8px;margin-bottom:0;">
+            <%= user && user.role === 'ADMIN' ? 'AI terhubung langsung ke Database PostgreSQL SkinCheck secara real-time.' : 'AI Assistant tidak menggantikan saran medis profesional' %>
+        </p>
+    </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatBox = document.getElementById('chat-box');
+    const sendBtn = document.getElementById('send-btn');
+
+    const quickActions = document.getElementById('admin-quick-actions');
+    if (quickActions) {
+        quickActions.addEventListener('click', (e) => {
+            const btn = e.target.closest('.chatbot-quick-btn');
+            if (!btn) return;
+            chatInput.value = btn.dataset.msg;
+            chatForm.dispatchEvent(new Event('submit'));
+        });
+    }
+
+    const formatMessage = (msg) => {
+        return msg
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+            .replace(/^### (.*$)/gm, '<strong>$1</strong>')
+            .replace(/^- (.*$)/gm, '• $1')
+            .replace(/\n/g, '<br>');
+    };
+
+    const appendUserMessage = (message) => {
+        const div = document.createElement('div');
+        div.className = 'chat-message-user chatbot-fade-in';
+        div.innerHTML = `<div class="chat-bubble">${message}</div>`;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    };
+
+    const createAIBubble = () => {
+        const div = document.createElement('div');
+        div.className = 'chat-message-ai chatbot-fade-in';
+        div.innerHTML = `
+            <div class="chat-message-ai-icon"><i class="fa-solid fa-robot"></i></div>
+            <div class="chat-bubble"><p class="streaming-text" style="margin:0;"></p></div>
+        `;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        return div.querySelector('.streaming-text');
+    };
+
+    const showTypingIndicator = () => {
+        const div = document.createElement('div');
+        div.id = 'typing-indicator';
+        div.className = 'chat-message-ai chatbot-fade-in';
+        div.innerHTML = `
+            <div class="chat-message-ai-icon"><i class="fa-solid fa-robot"></i></div>
+            <div class="chat-bubble chatbot-typing-bubble">
+                <span class="chatbot-typing-dot"></span>
+                <span class="chatbot-typing-dot"></span>
+                <span class="chatbot-typing-dot"></span>
+            </div>
+        `;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    };
+
+    const removeTypingIndicator = () => {
+        const indicator = document.getElementById('typing-indicator');
+        if (indicator) indicator.remove();
+    };
+
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        chatInput.value = '';
+        chatInput.disabled = true;
+        sendBtn.disabled = true;
+
+        appendUserMessage(message);
+        showTypingIndicator();
+
+        try {
+            const response = await fetch('/ai/chat/stream', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            });
+
+            removeTypingIndicator();
+
+            if (!response.ok) {
+                createAIBubble().innerHTML = '❌ Maaf, terjadi kesalahan pada server AI.';
+                return;
+            }
+
+            const textEl = createAIBubble();
+            let rawText = '';
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split('\n');
+                buffer = lines.pop();
+                for (const line of lines) {
+                    if (!line.startsWith('data: ')) continue;
+                    try {
+                        const data = JSON.parse(line.slice(6));
+                        if (data.token) {
+                            rawText += data.token;
+                            textEl.innerHTML = formatMessage(rawText);
+                            chatBox.scrollTop = chatBox.scrollHeight;
+                        }
+                        if (data.error) {
+                            textEl.innerHTML = '❌ ' + data.error;
+                        }
+                    } catch (_) {}
+                }
+            }
+
+        } catch (err) {
+            removeTypingIndicator();
+            const textEl = createAIBubble();
+            textEl.innerHTML = '❌ Jaringan terputus. Gagal menghubungi server AI.';
+        } finally {
+            chatInput.disabled = false;
+            sendBtn.disabled = false;
+            chatInput.focus();
+        }
+    });
+});
+</script>
+
+<style>
+/* AI chat takes full height of page content area */
+.page-content:has(.ai-chat-container) {
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+.ai-chat-container {
+    flex: 1;
+    height: calc(100vh - var(--topbar-height) - 56px);
+}
+</style>

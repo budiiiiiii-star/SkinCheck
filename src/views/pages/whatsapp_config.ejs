@@ -1,0 +1,109 @@
+﻿<!-- whatsapp_config.ejs - Admin only -->
+<div class="page-header mb-4">
+    <h2 class="page-title"><i class="fa-solid fa-gear me-2"></i>Konfigurasi Fonnte API</h2>
+    <p class="text-muted">Status konfigurasi integrasi Fonnte WhatsApp API.</p>
+</div>
+
+<div class="row g-4">
+    <!-- Config Status -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h5 class="card-title fw-semibold mb-4"><i class="fa-solid fa-shield-halved me-2"></i>Status Konfigurasi</h5>
+
+                <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                    <div>
+                        <div class="fw-medium">FONNTE_API_KEY</div>
+                        <div class="small text-muted">API Key untuk autentikasi Fonnte</div>
+                    </div>
+                    <% if (configured) { %>
+                        <span class="badge bg-success fs-6">Configured</span>
+                    <% } else { %>
+                        <span class="badge bg-danger fs-6">Not Configured</span>
+                    <% } %>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                    <div>
+                        <div class="fw-medium">FONNTE_API_URL</div>
+                        <div class="small text-muted">Base URL Fonnte API</div>
+                    </div>
+                    <% if (apiUrl) { %>
+                        <span class="badge bg-success">Configured</span>
+                    <% } else { %>
+                        <span class="badge bg-warning text-dark">Default</span>
+                    <% } %>
+                </div>
+
+                <% if (apiUrl) { %>
+                <div class="d-flex justify-content-between align-items-center py-3">
+                    <div>
+                        <div class="fw-medium">API Base URL</div>
+                    </div>
+                    <code class="small"><%= apiUrl %></code>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connection Test -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h5 class="card-title fw-semibold mb-4"><i class="fa-solid fa-plug me-2"></i>Tes Koneksi</h5>
+
+                <% if (!configured) { %>
+                <div class="alert alert-warning mb-0">
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                    Konfigurasi belum lengkap. Tes koneksi tidak dapat dilakukan.
+                </div>
+                <% } else if (connectionTest) { %>
+                    <% if (connectionTest.connected) { %>
+                    <div class="d-flex align-items-center p-3 bg-success bg-opacity-10 rounded-3 border border-success mb-3">
+                        <i class="fa-solid fa-circle-check fa-2x text-success me-3"></i>
+                        <div>
+                            <div class="fw-semibold text-success">Koneksi Berhasil</div>
+                            <div class="small text-muted"><%= connectionTest.message %></div>
+                        </div>
+                    </div>
+                    <% } else { %>
+                    <div class="d-flex align-items-center p-3 bg-danger bg-opacity-10 rounded-3 border border-danger mb-3">
+                        <i class="fa-solid fa-circle-xmark fa-2x text-danger me-3"></i>
+                        <div>
+                            <div class="fw-semibold text-danger">Koneksi Gagal</div>
+                            <div class="small text-muted"><%= connectionTest.message %></div>
+                        </div>
+                    </div>
+                    <% } %>
+                <% } %>
+
+                <div class="mt-3">
+                    <a href="/whatsapp/config" class="btn btn-outline-primary w-100">
+                        <i class="fa-solid fa-rotate me-2"></i>Refresh Status Koneksi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Setup Instructions -->
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h5 class="card-title fw-semibold mb-3"><i class="fa-solid fa-book me-2"></i>Cara Setup</h5>
+                <ol class="small text-muted">
+                    <li class="mb-2">Daftar/login ke dashboard <strong>Fonnte.com</strong></li>
+                    <li class="mb-2">Hubungkan perangkat WhatsApp ke Fonnte via QR Code</li>
+                    <li class="mb-2">Salin <strong>Device Token</strong> dari dashboard Fonnte</li>
+                    <li class="mb-2">Tambahkan token ke file <code>.env</code> project ini: <code>FONNTE_API_KEY=your_token_here</code></li>
+                    <li class="mb-2">Restart server dan refresh halaman ini</li>
+                </ol>
+                <div class="alert alert-info mt-3 mb-0 small">
+                    <i class="fa-solid fa-lock me-2"></i>
+                    <strong>Keamanan:</strong> API Key Fonnte hanya disimpan di environment server. Tidak pernah dikirim ke browser atau muncul di source code.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

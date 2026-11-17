@@ -1,0 +1,139 @@
+<!-- Onboarding Page — Standalone (no sidebar) -->
+<div class="auth-layout" style="align-items:flex-start;padding-top:40px;padding-bottom:40px;">
+    <div style="width:100%;max-width:620px;position:relative;z-index:1;margin:0 auto;">
+
+        <!-- Brand -->
+        <div class="auth-brand">
+            <div class="auth-brand-icon"><i class="fa-solid fa-leaf"></i></div>
+            <span class="auth-brand-name">SkinCheck</span>
+        </div>
+
+        <div class="auth-card fade-in">
+            <h1 class="auth-title">Lengkapi Profil Anda 🌿</h1>
+            <p class="auth-subtitle">Untuk memberikan rekomendasi terbaik, kami butuh beberapa informasi mengenai Anda dan kulit Anda.</p>
+
+            <% if (locals.error) { %>
+                <div class="alert alert-danger mb-4"><i class="fa-solid fa-circle-exclamation me-2"></i><%= error %></div>
+            <% } %>
+
+            <!-- Info Box -->
+            <div class="alert alert-warning mb-5">
+                <h6 style="font-weight:700;margin-bottom:6px;"><i class="fa-solid fa-triangle-exclamation me-2"></i>Informasi Penting</h6>
+                <ul style="margin:0;padding-left:20px;font-size:0.8rem;">
+                    <li>Analisis dari SkinCheck <strong>bersifat informatif</strong>.</li>
+                    <li>Hasil analisis <strong>bukan diagnosis medis</strong>.</li>
+                    <li>AI Assistant <strong>bukan dokter</strong>.</li>
+                    <li>Tetap disarankan berkonsultasi dengan dokter kulit jika diperlukan.</li>
+                </ul>
+            </div>
+
+            <form action="/onboarding" method="POST" id="onboarding-form">
+
+                <!-- Step 1: Basic Profile -->
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                    <div style="width:28px;height:28px;border-radius:8px;background:var(--brand-gradient);display:flex;align-items:center;justify-content:center;color:white;font-size:0.8rem;font-weight:700;flex-shrink:0;">1</div>
+                    <h3 style="font-size:0.9rem;font-weight:700;color:var(--text-primary);margin:0;">Profil Dasar (Wajib)</h3>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label" for="ob-age">Umur</label>
+                        <input type="number" id="ob-age" name="age" class="form-control" required min="10" max="100">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="ob-gender">Jenis Kelamin</label>
+                        <select id="ob-gender" name="gender" class="form-select" required>
+                            <option value="">Pilih...</option>
+                            <option value="L">Laki-laki</option>
+                            <option value="P">Perempuan</option>
+                            <option value="O">Lainnya</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <label class="form-label" for="ob-skin-type">Jenis Kulit</label>
+                    <select id="ob-skin-type" name="skin_type" class="form-select" required>
+                        <option value="">Pilih jenis kulit...</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Kering">Kering</option>
+                        <option value="Berminyak">Berminyak</option>
+                        <option value="Kombinasi">Kombinasi</option>
+                        <option value="Sensitif">Sensitif</option>
+                        <option value="Tidak Tahu">Tidak Tahu</option>
+                    </select>
+                </div>
+
+                <!-- Divider -->
+                <div style="border-top:1px solid var(--border-color);margin-bottom:20px;"></div>
+
+                <!-- Step 2 -->
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                    <div style="width:28px;height:28px;border-radius:8px;background:var(--brand-gradient);display:flex;align-items:center;justify-content:center;color:white;font-size:0.8rem;font-weight:700;flex-shrink:0;">2</div>
+                    <h3 style="font-size:0.9rem;font-weight:700;color:var(--text-primary);margin:0;">Tujuan &amp; Preferensi</h3>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Tujuan Skincare (Bisa pilih lebih dari satu)</label>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                        <% const goalOpts = ['Mengurangi Jerawat', 'Mencerahkan', 'Anti Aging', 'Melembabkan']; %>
+                        <% goalOpts.forEach((g, i) => { %>
+                            <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--border-color);border-radius:12px;cursor:pointer;transition:all 0.2s;font-size:0.875rem;color:var(--text-secondary);"
+                                   onmouseenter="this.style.borderColor='var(--brand-primary)';this.style.background='rgba(124,58,237,0.05)'"
+                                   onmouseleave="this.style.borderColor='var(--border-color)';this.style.background=''">
+                                <input type="checkbox" name="skincare_goals" value="<%= g %>" id="ob-goal-<%= i+1 %>" style="accent-color:var(--brand-primary);">
+                                <%= g %>
+                            </label>
+                        <% }) %>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label" for="ob-prefs">Preferensi Skincare (Opsional)</label>
+                    <input type="text" id="ob-prefs" name="skincare_preferences" class="form-control" placeholder="Contoh: Vegan, Fragrance-free, dsb.">
+                </div>
+
+                <div class="mb-5">
+                    <label class="form-label" for="ob-products">Produk Skincare yang Sedang Digunakan (Opsional)</label>
+                    <textarea id="ob-products" name="current_products" class="form-control" rows="3" placeholder="Sebutkan produk yang rutin Anda pakai saat ini..."></textarea>
+                </div>
+
+                <!-- Divider -->
+                <div style="border-top:1px solid var(--border-color);margin-bottom:20px;"></div>
+
+                <!-- Step 3 -->
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                    <div style="width:28px;height:28px;border-radius:8px;background:var(--brand-gradient);display:flex;align-items:center;justify-content:center;color:white;font-size:0.8rem;font-weight:700;flex-shrink:0;">3</div>
+                    <h3 style="font-size:0.9rem;font-weight:700;color:var(--text-primary);margin:0;">Persetujuan (Wajib)</h3>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+                    <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--border-color);border-radius:12px;cursor:pointer;font-size:0.8rem;color:var(--text-secondary);">
+                        <input type="checkbox" name="consent_privacy" id="ob-consent-privacy" required style="margin-top:2px;accent-color:var(--brand-primary);flex-shrink:0;">
+                        Saya menyetujui Kebijakan Privasi SkinCheck.
+                    </label>
+                    <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--border-color);border-radius:12px;cursor:pointer;font-size:0.8rem;color:var(--text-secondary);">
+                        <input type="checkbox" name="consent_camera" id="ob-consent-camera" required style="margin-top:2px;accent-color:var(--brand-primary);flex-shrink:0;">
+                        Saya mengerti bahwa fitur Face Scan akan meminta akses kamera pada saat digunakan nanti. (Kami tidak akan mengakses kamera sekarang).
+                    </label>
+                    <label style="display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1.5px solid var(--border-color);border-radius:12px;cursor:pointer;font-size:0.8rem;color:var(--text-secondary);">
+                        <input type="checkbox" name="consent_face_data" id="ob-consent-face-data" required style="margin-top:2px;accent-color:var(--brand-primary);flex-shrink:0;">
+                        Saya menyetujui penggunaan foto/data wajah saya semata-mata untuk analisis kulit oleh AI.
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" style="width:100%;" id="onboarding-submit-btn">
+                    <i class="fa-solid fa-rocket"></i> Simpan Profil &amp; Lanjutkan
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('sc-theme') || 'light';
+    html.setAttribute('data-theme', savedTheme);
+})();
+</script>
