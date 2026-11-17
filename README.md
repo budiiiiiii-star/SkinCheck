@@ -15,10 +15,10 @@
 | 4 | **Pria Budi Santoso** | `41257149` | AI/ML Engineer & System Architect |
 | 5 | **Satria Fibi Saputra** | `41257159` | Full-stack Developer & Technical Writer |
 
-* **Nomor Kelompok**: `[Kelompok - Isi Nomor Kelompok Anda]`
-* **Program Studi / Fakultas**: Teknik Informatika / Ilmu Komputer `[Sesuaikan jika perlu]`
+* **Nomor Kelompok / Nama Tim**: **CANGKOL PERANGKAT LUNAK**
+* **Program Studi / Fakultas**: Teknik Informatika / Ilmu Komputer
 * **Mata Kuliah**: Rekayasa Perangkat Lunak (RPL)
-* **Dosen Pengampu**: `[Nama Dosen Pengampu]`
+* **Dosen Pengampu**: **Yudhistira Arie Wijaya, M.Kom., CDS**
 
 ---
 
